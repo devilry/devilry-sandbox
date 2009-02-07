@@ -1,0 +1,61 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.devilry</groupId>
+		<artifactId>devilry-sandbox</artifactId>
+		<version>0.1-ALPHA</version>
+	</parent>
+
+	<packaging>jar</packaging>
+	<artifactId>hibernate-demo</artifactId>
+	<name>Hibernate demo</name>
+
+
+	<repositories>
+		<repository>
+			<id>Codehaus Snapshots</id>
+			<url>http://snapshots.repository.codehaus.org/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>Codehaus Snapshots</id>
+			<url>http://snapshots.repository.codehaus.org/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>	<!-- Workaround for MNG-2974, see note below -->
+			</releases>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>hibernate3-maven-plugin</artifactId>
+				<version>1.0-SNAPSHOT</version>
+				<configuration>
+					<hibernate>
+						<configurationFile>/src/main/resources/hibernate.cfg.xml</configurationFile>
+					</hibernate>
+					<outputDirectory>
+						<hbm2cfgxml>src/main/resources</hbm2cfgxml>
+					</outputDirectory>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+
+</project>
