@@ -1,61 +1,73 @@
+<?xml version="1.0"?>
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.devilry</groupId>
-		<artifactId>devilry-sandbox</artifactId>
-		<version>0.1-ALPHA</version>
-	</parent>
 
-	<packaging>jar</packaging>
+	<groupId>org.devilry</groupId>
 	<artifactId>hibernate-demo</artifactId>
+	<version>1.0</version>
 	<name>Hibernate demo</name>
 
+	<dependencies>
+		
+		<!-- Hibernate -->
+		
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate</artifactId>
+			<version>3.2.6.ga</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.transaction</groupId> <!-- Sun library -->
+					<artifactId>jta</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>geronimo-spec</groupId> <!-- Transaction management -->
+			<artifactId>geronimo-spec-jta</artifactId>
+			<version>1.0-M1</version>
+		</dependency>
+		<dependency>
+			<groupId>c3p0</groupId> <!-- Connection pooling -->
+			<artifactId>c3p0</artifactId>
+			<version>0.9.1.2</version>
+		</dependency>
+		
+		<!-- DBMS -->
 
-	<repositories>
-		<repository>
-			<id>Codehaus Snapshots</id>
-			<url>http://snapshots.repository.codehaus.org/</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-		</repository>
-	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>Codehaus Snapshots</id>
-			<url>http://snapshots.repository.codehaus.org/</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<releases>
-				<enabled>true</enabled>	<!-- Workaround for MNG-2974, see note below -->
-			</releases>
-		</pluginRepository>
-	</pluginRepositories>
+		<dependency>
+			<groupId>hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>1.8.0.7</version>
+			<!-- Cannot use runtime scope because exec plugin does not add it
+			to classpath.
+			<scope>runtime</scope>-->
+		</dependency>
+		
+	</dependencies>
 
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>hibernate3-maven-plugin</artifactId>
-				<version>1.0-SNAPSHOT</version>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<hibernate>
-						<configurationFile>/src/main/resources/hibernate.cfg.xml</configurationFile>
-					</hibernate>
-					<outputDirectory>
-						<hbm2cfgxml>src/main/resources</hbm2cfgxml>
-					</outputDirectory>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>sandbox.Demo</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
-
 
 </project>
