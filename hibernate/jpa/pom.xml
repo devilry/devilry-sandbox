@@ -63,7 +63,7 @@
 			<artifactId>hibernate-commons-annotations</artifactId>		
 			<version>${hibernate-commons-annotations.version}</version>		
 			<groupId>org.hibernate</groupId>		
-		</dependency>		
+		</dependency>
 
 
 		<dependency>

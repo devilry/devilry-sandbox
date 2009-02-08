@@ -8,6 +8,7 @@
 		<property name="connection.driver_class">org.hsqldb.jdbcDriver</property>
 		<property name="connection.url">jdbc:hsqldb:mem</property>
 		<!--<property name="connection.url">jdbc:hsqldb:mem:devilry</property>-->
+		<!--<property name="connection.url">jdbc:hsqldb:file:demodb.hsqldb</property>-->
 		<property name="connection.username">sa</property>
 		<property name="connection.password"></property>
 
