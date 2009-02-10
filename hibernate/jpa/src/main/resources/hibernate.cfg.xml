@@ -3,6 +3,9 @@
 		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
 		"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 
+<!-- NOTE that this file is note used by the current setup.. All properties is
+set in persistence.xml. -->
+
 <hibernate-configuration>
 	<session-factory>
 		<property name="connection.driver_class">org.hsqldb.jdbcDriver</property>
