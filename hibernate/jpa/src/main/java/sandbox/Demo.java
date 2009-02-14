@@ -8,18 +8,12 @@ public class Demo {
 	EntityManagerFactory emf;
 
 	public static void main(String[] args) {
+		String username = args[0];
 		Demo d = new Demo();
-		User pp = d.add("Peter Pan");
-		User sm = d.add("Spiderman");
-
-		d.get(pp.getId());
-		d.get(sm.getId());
-
-		d.queryUser("Spiderman");
-		d.queryUser("Peter Pan");
-
+		User u = d.add(username);
+		d.get(u.getId());
+		d.queryUser(username);
 		d.printAllUsers();
-
 		d.close();
 	}
 

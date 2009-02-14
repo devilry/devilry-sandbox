@@ -13,9 +13,9 @@
 
 
 	<properties>
-		<hibernate.version>3.2.5.ga</hibernate.version>
+		<hibernate.version>3.2.6.ga</hibernate.version>
 		<persistence-api.version>1.0</persistence-api.version>
-		<hibernate-commons-annotations.version>3.0.0.ga</hibernate-commons-annotations.version>  
+		<hibernate-commons-annotations.version>3.3.0.ga</hibernate-commons-annotations.version>  
 		<hibernate-annotations.version>3.3.1.GA</hibernate-annotations.version>  
 		<hibernate-entitymanager.version>3.3.1.ga</hibernate-entitymanager.version>  
 		<hibernate-validator.version>3.0.0.ga</hibernate-validator.version>
@@ -35,9 +35,9 @@
 		<!-- Hibernate -->
 
 		<dependency>		
+			<groupId>org.hibernate</groupId>		
 			<artifactId>hibernate</artifactId>		
 			<version>${hibernate.version}</version>		
-			<groupId>org.hibernate</groupId>		
 			<exclusions>
 				<exclusion>
 					<groupId>javax.transaction</groupId> <!-- Sun library -->
@@ -111,9 +111,11 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
+				<!--
 				<configuration>
 					<mainClass>sandbox.Demo</mainClass>
 				</configuration>
+				-->
 			</plugin>
 		</plugins>
 	</build>
