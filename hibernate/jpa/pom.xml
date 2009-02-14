@@ -7,9 +7,9 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.devilry</groupId>
-	<artifactId>hibernate-demo</artifactId>
+	<artifactId>hibernate-jpa</artifactId>
 	<version>1.0</version>
-	<name>Hibernate demo</name>
+	<name>Hibernate jpa demo</name>
 
 
 	<properties>
