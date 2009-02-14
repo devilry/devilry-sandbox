@@ -31,6 +31,7 @@
 		</dependency>
 
 
+
 		<!-- Hibernate -->
 
 		<dependency>		
@@ -86,6 +87,12 @@
 			<!-- Cannot use runtime scope because exec plugin does not add it
 			to classpath.
 			<scope>runtime</scope>-->
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.derby</groupId>
+			<artifactId>derby</artifactId>
+			<version>10.4.2.0</version>
 		</dependency>
 		
 	</dependencies>
