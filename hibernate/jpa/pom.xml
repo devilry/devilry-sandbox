@@ -23,13 +23,20 @@
 
 
 	<dependencies>
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>5.8</version>
+			<scope>test</scope>
+			<classifier>jdk15</classifier>
+		</dependency>
 
-		<dependency>  
+
+		<dependency>
 			<artifactId>persistence-api</artifactId>  
 			<version>${persistence-api.version}</version>  
 			<groupId>javax.persistence</groupId>  
 		</dependency>
-
 
 
 		<!-- Hibernate -->

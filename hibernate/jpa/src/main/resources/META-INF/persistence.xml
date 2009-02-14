@@ -5,7 +5,7 @@
 			http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
 		version="1.0">
 
-	<persistence-unit name="helloworld">
+	<persistence-unit name="production">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 
 		<properties>
@@ -57,6 +57,32 @@
 			-->
 
 
+		</properties>
+	</persistence-unit>
+
+	<persistence-unit name="test">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+
+		<properties>
+			<property name="hibernate.archive.autodetection"
+				value="class, hbm"/>
+
+			<!-- Database connection -->
+			<property name="hibernate.connection.driver_class"
+					  value="org.hsqldb.jdbcDriver"/>
+			<property name="hibernate.dialect"
+					  value="org.hibernate.dialect.HSQLDialect"/>
+			<property name="hibernate.connection.url"
+					  value="jdbc:hsqldb:mem:tests-mem"/>
+			<property name="hibernate.connection.username" value="sa"/>
+
+			<!-- Optional properties
+			http://www.hibernate.org/hib_docs/reference/en/html/configuration-optional.html
+			-->
+
+			<property name="hibernate.show_sql" value="true"/>
+			<property name="hibernate.format_sql" value="true"/>
+			<property name="hibernate.hbm2ddl.auto" value="create-drop"/>
 		</properties>
 	</persistence-unit>
 </persistence>
