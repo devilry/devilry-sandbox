@@ -1,5 +1,7 @@
 package sandbox;
 
+import java.util.Collection;
+
 import javax.persistence.*;
 
 
@@ -17,6 +19,8 @@ class User {
 	@ManyToOne(cascade = CascadeType.ALL)
 	private User bestFriend;
 
+	@ManyToMany
+	private Collection<User> allFriends;
 
 	// Required by jpa
 	private User(){}
@@ -46,7 +50,13 @@ class User {
 		this.name = name;
 	}
 
+	public void setAllFriends(Collection<User> allFriends) {
+		this.allFriends = allFriends;
+	}
 
+	public Collection<User> getAllFriends() {
+		return allFriends;
+	}
 	
 	public void setBestFriend(User bestFriend) {
 		this.bestFriend = bestFriend;
