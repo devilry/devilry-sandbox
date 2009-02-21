@@ -6,10 +6,15 @@
 	
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.devilry</groupId>
-	<artifactId>spring-di-demo</artifactId>
-	<version>1.0</version>
-	<name>Spring Dependecy injection demo</name>
+	<parent>
+		<groupId>org.devilry</groupId>
+		<artifactId>devilry-sandbox-spring</artifactId>
+		<version>0.1</version>
+	</parent>
+
+	<packaging>jar</packaging>
+	<artifactId>devilry-sandbox-spring-dep-injection</artifactId>
+	<name>Devilry sandbox Spring dependecy injection</name>
 
 	<dependencies>
 		<dependency>

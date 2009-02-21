@@ -9,11 +9,10 @@
 	</parent>
 
 	<packaging>pom</packaging>
-	<artifactId>devilry-sandbox-openejb</artifactId>
-	<name>Devilry sandbox openejb</name>
+	<artifactId>devilry-sandbox-testng</artifactId>
+	<name>Devilry sandbox TestNG</name>
 
 	<modules>
-		<module>openejb-stateless</module>
+		<module>examples</module>
 	</modules>
-
 </project>

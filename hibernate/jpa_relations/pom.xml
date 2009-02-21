@@ -12,25 +12,66 @@
 		<version>0.1</version>
 	</parent>
 
-	<artifactId>devilry-sandbox-hibernate-simple-nojpa</artifactId>
-	<name>Devilry sandbox Hibernate simple (no JPA)</name>
+	<artifactId>devilry-sandbox-hibernate-jpa-relations</artifactId>
+	<name>Devilry sandbox Hibernate jpa relations</name>
 	<packaging>jar</packaging>
 
+
+	<properties>
+		<hibernate.version>3.2.6.ga</hibernate.version>
+		<persistence-api.version>1.0</persistence-api.version>
+		<hibernate-commons-annotations.version>3.3.0.ga</hibernate-commons-annotations.version>  
+		<hibernate-annotations.version>3.3.1.GA</hibernate-annotations.version>  
+		<hibernate-entitymanager.version>3.3.1.ga</hibernate-entitymanager.version>  
+		<hibernate-validator.version>3.0.0.ga</hibernate-validator.version>
+	</properties>
+
+
 	<dependencies>
-		
+
+		<dependency>  
+			<artifactId>persistence-api</artifactId>  
+			<version>${persistence-api.version}</version>  
+			<groupId>javax.persistence</groupId>  
+		</dependency>
+
+
+
 		<!-- Hibernate -->
-		
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate</artifactId>
-			<version>3.2.6.ga</version>
+
+		<dependency>		
+			<groupId>org.hibernate</groupId>		
+			<artifactId>hibernate</artifactId>		
+			<version>${hibernate.version}</version>		
 			<exclusions>
 				<exclusion>
 					<groupId>javax.transaction</groupId> <!-- Sun library -->
 					<artifactId>jta</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>		
+		<dependency>		
+			<artifactId>hibernate-annotations</artifactId>		
+			<version>${hibernate-annotations.version}</version>		
+			<groupId>org.hibernate</groupId>		
+		</dependency>		
+		<dependency>		
+			<artifactId>hibernate-entitymanager</artifactId>		
+			<version>${hibernate-entitymanager.version}</version>		
+			<groupId>org.hibernate</groupId>		
+		</dependency>		
+		<dependency>		
+			<artifactId>hibernate-validator</artifactId>		
+			<version>${hibernate-validator.version}</version>		
+			<groupId>org.hibernate</groupId>		
+		</dependency>		
+		<dependency>		
+			<artifactId>hibernate-commons-annotations</artifactId>		
+			<version>${hibernate-commons-annotations.version}</version>		
+			<groupId>org.hibernate</groupId>		
 		</dependency>
+
+
 		<dependency>
 			<groupId>geronimo-spec</groupId> <!-- Transaction management -->
 			<artifactId>geronimo-spec-jta</artifactId>
@@ -52,8 +93,9 @@
 			to classpath.
 			<scope>runtime</scope>-->
 		</dependency>
-		
+
 	</dependencies>
+
 
 	<build>
 		<plugins>

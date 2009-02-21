@@ -8,12 +8,14 @@
 		<version>0.1</version>
 	</parent>
 
-	<packaging>pom</packaging>
-	<artifactId>devilry-sandbox-openejb</artifactId>
-	<name>Devilry sandbox openejb</name>
-
 	<modules>
-		<module>openejb-stateless</module>
+		<module>jpa</module>
+		<module>jpa_relations</module>
+		<module>simple</module>
 	</modules>
+
+	<packaging>pom</packaging>
+	<artifactId>devilry-sandbox-hibernate</artifactId>
+	<name>Devilry sandbox Hibernate</name>
 
 </project>

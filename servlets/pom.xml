@@ -9,11 +9,11 @@
 	</parent>
 
 	<packaging>pom</packaging>
-	<artifactId>devilry-sandbox-openejb</artifactId>
-	<name>Devilry sandbox openejb</name>
+	<artifactId>devilry-sandbox-servlets</artifactId>
+	<name>Devilry sandbox Servlets</name>
 
 	<modules>
-		<module>openejb-stateless</module>
+		<module>helloworld_tomcat</module>
 	</modules>
 
 </project>

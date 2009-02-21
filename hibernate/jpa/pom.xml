@@ -6,10 +6,15 @@
 	
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.devilry</groupId>
-	<artifactId>hibernate-jpa</artifactId>
-	<version>1.0</version>
-	<name>Hibernate jpa demo</name>
+	<parent>
+		<groupId>org.devilry</groupId>
+		<artifactId>devilry-sandbox-hibernate</artifactId>
+		<version>0.1</version>
+	</parent>
+
+	<artifactId>devilry-sandbox-hibernate-jpa</artifactId>
+	<name>Devilry sandbox Hibernate jpa demo</name>
+	<packaging>jar</packaging>
 
 
 	<properties>
@@ -23,15 +28,6 @@
 
 
 	<dependencies>
-		<dependency>
-			<groupId>org.testng</groupId>
-			<artifactId>testng</artifactId>
-			<version>5.8</version>
-			<scope>test</scope>
-			<classifier>jdk15</classifier>
-		</dependency>
-
-
 		<dependency>
 			<artifactId>persistence-api</artifactId>  
 			<version>${persistence-api.version}</version>  

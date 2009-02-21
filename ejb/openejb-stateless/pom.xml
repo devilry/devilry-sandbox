@@ -5,13 +5,13 @@
 
 	<parent>
 		<groupId>org.devilry</groupId>
-		<artifactId>openejb</artifactId>
-		<version>0.1-ALPHA</version>
+		<artifactId>devilry-sandbox-openejb</artifactId>
+		<version>0.1</version>
 	</parent>
 
 	<packaging>jar</packaging>
-	<artifactId>openejb-stateless</artifactId>
-	<name>Stateless openejb</name>
+	<artifactId>devilry-sandbox-openejb-stateless</artifactId>
+	<name>Devilry sandbox openejb stateless</name>
 
 	<dependencies>
 

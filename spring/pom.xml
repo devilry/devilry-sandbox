@@ -8,12 +8,12 @@
 		<version>0.1</version>
 	</parent>
 
-	<packaging>pom</packaging>
-	<artifactId>devilry-sandbox-openejb</artifactId>
-	<name>Devilry sandbox openejb</name>
-
 	<modules>
-		<module>openejb-stateless</module>
+		<module>dependency_injection</module>
 	</modules>
+
+	<packaging>pom</packaging>
+	<artifactId>devilry-sandbox-spring</artifactId>
+	<name>Devilry sandbox Spring</name>
 
 </project>

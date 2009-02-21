@@ -5,10 +5,19 @@
 	<groupId>org.devilry</groupId>
 	<artifactId>devilry-sandbox</artifactId>
 	<packaging>pom</packaging>
-	<version>0.1-ALPHA</version>
+	<version>0.1</version>
 
 	<name>Devilry sandbox</name>
 	<url>http://launchpad.net/devilry/</url>
+
+	<modules>
+		<module>hibernate</module>
+		<module>ejb</module>
+		<module>spring</module>
+		<module>servlets</module>
+		<module>testng</module>
+	</modules>
+	
 
 	<dependencies>
 		<dependency>
@@ -16,6 +25,13 @@
 			<artifactId>junit</artifactId>
 			<version>4.5</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>5.8</version>
+			<scope>test</scope>
+			<classifier>jdk15</classifier>
 		</dependency>
 	</dependencies>
 	
