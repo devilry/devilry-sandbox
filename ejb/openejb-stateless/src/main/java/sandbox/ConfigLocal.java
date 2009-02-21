@@ -1,4 +1,4 @@
-package org.devilry.sandbox.ejb;
+package sandbox;
 
 public interface ConfigLocal {
 	public String getSiteName();

@@ -1,4 +1,4 @@
-package org.devilry.sandbox.ejb;
+package sandbox;
 
 import static org.junit.Assert.*;
 import org.junit.Before;

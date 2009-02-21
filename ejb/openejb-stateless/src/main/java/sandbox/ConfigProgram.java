@@ -1,4 +1,4 @@
-package org.devilry.sandbox.ejb;
+package sandbox;
 
 import java.util.Properties;
 
