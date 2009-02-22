@@ -2,5 +2,5 @@
 <Resource id="helloDatabase" type="DataSource">
 	JdbcDriver = org.hsqldb.jdbcDriver
 	JdbcUrl = jdbc:hsqldb:mem:hellodb
-	JtaManaged = false
+	JtaManaged = true
 </Resource>
