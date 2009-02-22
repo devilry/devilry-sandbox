@@ -13,8 +13,8 @@
 	<name>Devilry sandbox openejb</name>
 
 	<modules>
-		<module>openejb-stateless</module>
-    <module>devilry-sandbox-openejb-simple-stateless</module>
-  </modules>
+		<module>openejb_simple_stateless</module>
+		<module>openejb_stateful_entity</module>
+	</modules>
 
 </project>

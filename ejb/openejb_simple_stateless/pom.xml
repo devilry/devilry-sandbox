@@ -9,10 +9,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.devilry</groupId>
 	<artifactId>
-		devilry-sandbox-openejb-simple-stateless
+		devilry-sandbox-ejb-openejb_simple_stateless
 	</artifactId>
 	<name>
-		devilry-sandbox-openejb-simple-stateless
+		devilry :: sandbox :: ejb :: openejb simple stateless
 	</name>
 	<version>0.1</version>
 
@@ -22,7 +22,7 @@
 			<groupId>org.apache.openejb</groupId>
 			<artifactId>javaee-api</artifactId>
 			<version>5.0-1</version>
-			<scope>provided</scope>
+			<!-- <scope>provided</scope>-->
 		</dependency>
 
 		<!--
@@ -36,4 +36,5 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
 </project>
