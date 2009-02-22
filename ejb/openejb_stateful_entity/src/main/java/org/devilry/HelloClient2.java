@@ -5,7 +5,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.rmi.PortableRemoteObject;
 
-public class HelloClient {
+public class HelloClient2 {
 	public static void main(String[] args) throws Exception {
 
 		Properties props = new Properties();
@@ -14,9 +14,13 @@ public class HelloClient {
 		props.put(Context.PROVIDER_URL, "ejbd://127.0.0.1:4201");
 		Context ctx = new InitialContext(props);
 
-		Object ref = ctx.lookup("HelloBeanRemote");
-		Hello h = (Hello) PortableRemoteObject.narrow(ref, Hello.class);
+		Object ref = ctx.lookup("HelloBean2Remote");
+		Hello2 h = (Hello2) PortableRemoteObject.narrow(ref, Hello2.class);
+
 		h.addHelloworld("en", "Hello world!");
 		System.out.println(h.getHelloworld("en"));
+		
+		h.addHelloworld("no", "Hei verden!");
+		System.out.println(h.getHelloworld("no"));
 	}
 }

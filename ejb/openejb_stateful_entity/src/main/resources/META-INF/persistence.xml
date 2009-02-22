@@ -6,7 +6,7 @@
 	version="1.0">
 
 
-	<persistence-unit name="hello-unit">
+	<persistence-unit name="hello-unit" transaction-type="RESOURCE_LOCAL">
 		<jta-data-source>helloDatabase</jta-data-source>
 		<non-jta-data-source>helloDatabaseUnmanaged</non-jta-data-source>
 		<class>org.devilry.HelloTranslations</class>
