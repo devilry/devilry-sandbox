@@ -1,0 +1,26 @@
+<!--
+The database is configured in conf/openejb.xml in your openejb example.
+This is not required, but openejb defaults to a hsqldb memory-database, so
+for real persistence you must configure the resources.
+
+Below is a usable setup for the database used in this module. Just paste it
+into your conf/openejb.xml. Paths are relative to the root directory
+in openejb (the directory with conf/, data/, bin/...).
+-->
+
+	<Resource id="helloDatabase" type="DataSource">
+		JdbcDriver org.hsqldb.jdbcDriver
+		JdbcUrl jdbc:hsqldb:file:data/hsqldb/hello;shutdown=true
+		UserName sa
+		Password
+		JtaManaged true
+	</Resource>
+
+
+	<Resource id="helloDatabaseUnmanaged" type="DataSource">
+		JdbcDriver org.hsqldb.jdbcDriver
+		JdbcUrl jdbc:hsqldb:file:data/hsqldb/hello;shutdown=true
+		UserName sa
+		Password
+		JtaManaged false
+	</Resource>

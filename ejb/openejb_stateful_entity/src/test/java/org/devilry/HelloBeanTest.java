@@ -42,6 +42,6 @@ public class HelloBeanTest {
 		assertEquals(result, "Hello world!");
 
 		List<String> l = h.getAllTranslations();
-		assertTrue(l.contains("Hello world!"));
+		assertTrue(l.contains("en:Hello world!"));
 	}
 }

@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Resource id="helloDatabase" type="DataSource">
-	JdbcDriver = org.hsqldb.jdbcDriver
-	JdbcUrl = jdbc:hsqldb:mem:hellodb
-	JtaManaged = true
-</Resource>

@@ -20,6 +20,10 @@ public class HelloTranslations {
 		this.helloworld = helloworld;
 	}
 
+	public String getLang() {
+		return lang;
+	}
+
 	public String getHelloworld() {
 		return helloworld;
 	}

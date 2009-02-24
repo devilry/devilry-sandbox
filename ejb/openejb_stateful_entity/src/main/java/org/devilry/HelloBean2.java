@@ -14,7 +14,6 @@ import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
 
 
-//@TransactionAttribute(TransactionAttributeType.NEVER)
 @Stateful
 public class HelloBean2 implements Hello2 {
     @PersistenceContext(unitName = "hello-unit", type = PersistenceContextType.EXTENDED)
@@ -39,7 +38,7 @@ public class HelloBean2 implements Hello2 {
 		Query q = entityManager.createQuery("SELECT t FROM HelloTranslations t");
 		List<HelloTranslations> res = q.getResultList();
 		for(HelloTranslations t: res) {
-			l.add(t.getHelloworld());
+			l.add(String.format("%s:%s", t.getLang(), t.getHelloworld()));
 		}
 		return l;
 	}
