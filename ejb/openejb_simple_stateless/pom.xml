@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
 	<parent>
-		<artifactId>devilry-sandbox-openejb
+		<artifactId>devilry-sandbox-ejb
 		</artifactId>
 		<groupId>org.devilry</groupId>
 		<version>0.1</version>

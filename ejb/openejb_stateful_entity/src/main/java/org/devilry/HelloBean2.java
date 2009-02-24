@@ -11,18 +11,16 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
 
+@TransactionAttribute(TransactionAttributeType.NEVER)
 @Stateful
 public class HelloBean2 implements Hello2 {
     @PersistenceContext(unitName = "hello-unit", type = PersistenceContextType.EXTENDED)
     private EntityManager entityManager;
 
-	//@TransactionAttribute(TransactionAttributeType.NEVER)
 	public void addHelloworld(String lang, String helloworld) {
 		entityManager.persist(new HelloTranslations(lang, helloworld));
 	}
 
-
-	//@TransactionAttribute(TransactionAttributeType.NEVER)
 	public String getHelloworld(String lang) {
 		return entityManager.find(HelloTranslations.class, lang).getHelloworld();
 	}

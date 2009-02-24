@@ -9,7 +9,7 @@ How to  run this on a real openejb server (not embedded like the tests)
 
 3) Deploy the bean::
 
-    ~# $OPENEJB_HOME/bin/openejb deploy target/devilry-sandbox-openejb-simple-stateless-0.1.jar 
+    ~# $OPENEJB_HOME/bin/openejb deploy target/devilry-sandbox-ejb-openejb_stateful_entity-0.1.jar 
 
 4) Run the client::
 

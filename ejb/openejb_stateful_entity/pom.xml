@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
 	<parent>
-		<artifactId>devilry-sandbox-openejb
+		<artifactId>devilry-sandbox-ejb
 		</artifactId>
 		<groupId>org.devilry</groupId>
 		<version>0.1</version>
@@ -34,70 +34,8 @@
 			<groupId>org.apache.openejb</groupId>
 			<artifactId>openejb-core</artifactId>
 			<version>3.1</version>
-			<!--  <scope>test</scope> -->
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<configuration>
-					<mainClass>org.devilry.HelloClient
-					</mainClass>
-				</configuration>
-			</plugin>
-
-
-
-			<!--
-				this configures the surefire plugin to run your tests with the
-				javaagent enabled
-			-->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<forkMode>pertest</forkMode>
-					<argLine>
-						-javaagent:${basedir}/target/openejb-javaagent-3.1.jar
-					</argLine>
-					<workingDirectory>${basedir}/target
-					</workingDirectory>
-				</configuration>
-			</plugin>
-
-			<!--
-				this tells maven to copy the openejb-javaagent jar into your target/
-				directory
-			-->
-			<!-- where surefire can see it -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin
-				</artifactId>
-				<executions>
-					<execution>
-						<id>copy</id>
-						<phase>process-resources</phase>
-						<goals>
-							<goal>copy</goal>
-						</goals>
-						<configuration>
-							<artifactItems>
-								<artifactItem>
-									<groupId>org.apache.openejb</groupId>
-									<artifactId>openejb-javaagent</artifactId>
-									<version>3.1</version>
-									<outputDirectory>${project.build.directory}
-									</outputDirectory>
-								</artifactItem>
-							</artifactItems>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
 </project>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+	<parent>
+		<artifactId>devilry-sandbox-ejb</artifactId>
+		<groupId>org.devilry</groupId>
+		<version>0.1</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.devilry</groupId>
+	<artifactId>devilry-sandbox-ejb-openejb_hibernate_stateful_entity
+	</artifactId>
+	<name>devilry :: sandbox :: ejb :: openejb hibernate stateful entity
+	</name>
+	<version>0.1</version>
+</project>
