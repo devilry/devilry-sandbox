@@ -1,0 +1,19 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+			http://java.sun.com/xml/ns/persistence
+			http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
+	version="1.0">
+
+	<persistence-unit name="hello-unit">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<jta-data-source>helloDatabase</jta-data-source>
+		<non-jta-data-source>helloDatabaseUnmanaged</non-jta-data-source>
+
+		<properties>
+			<property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+			<property name="hibernate.transaction.manager_lookup_class"
+				value="org.apache.openejb.hibernate.TransactionManagerLookup"/>
+		</properties>
+	</persistence-unit>
+</persistence>

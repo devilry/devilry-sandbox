@@ -7,9 +7,61 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.devilry</groupId>
-	<artifactId>devilry-sandbox-ejb-openejb_hibernate_stateful_entity
+	<artifactId>
+		devilry-sandbox-ejb-openejb_hibernate_stateful_entity
 	</artifactId>
-	<name>devilry :: sandbox :: ejb :: openejb hibernate stateful entity
+	<name>
+		devilry :: sandbox :: ejb :: openejb :: hibernate stateful entity
 	</name>
 	<version>0.1</version>
+
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.apache.openejb</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>5.0-1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!--
+			The <scope>test</scope> guarantees that non of your runtime code is
+			dependent on any OpenEJB classes.
+		-->
+		<dependency>
+			<groupId>org.apache.openejb</groupId>
+			<artifactId>openejb-core</artifactId>
+			<version>3.1</version>
+			<scope>test</scope>
+		</dependency>
+
+
+		<!-- hibernate dependencies -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate</artifactId>
+			<version>3.2.5.ga</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.transaction</groupId>
+					<artifactId>jta</artifactId>
+				</exclusion>
+			</exclusions>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>3.2.1.ga</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.persistence</groupId>
+					<artifactId>persistence-api</artifactId>
+				</exclusion>
+			</exclusions>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
 </project>
