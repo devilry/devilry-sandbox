@@ -1,6 +1,7 @@
 package org.devilry;
 
 import java.util.Properties;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -39,5 +40,8 @@ public class HelloBeanTest {
 		h.addHelloworld("en", "Hello world!");
 		String result = h.getHelloworld("en");
 		assertEquals(result, "Hello world!");
+
+		List<String> l = h.getAllTranslations();
+		assertTrue(l.contains("Hello world!"));
 	}
 }
