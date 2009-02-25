@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+	<parent>
+		<artifactId>devilry-sandbox-ejb
+		</artifactId>
+		<groupId>org.devilry</groupId>
+		<version>0.1</version>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.devilry</groupId>
+	<artifactId>
+		devilry-sandbox-ejb-openejb_stateful_entity
+	</artifactId>
+	<name>
+		devilry :: sandbox :: ejb :: openejb :: stateful entity
+	</name>
+	<version>0.1</version>
+	<packaging>war</packaging>
+
+
+	<properties>
+		<openejb-version>3.1</openejb-version>
+		<javaee-api-version>5.0-1</javaee-api-version>
+	</properties>
+
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.apache.openejb</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>${javaee-api-version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!--
+			The <scope>test</scope> guarantees that non of your runtime code is
+			dependent on any OpenEJB classes.
+		-->
+		<dependency>
+			<groupId>org.apache.openejb</groupId>
+			<artifactId>openejb-core</artifactId>
+			<version>${openejb-version}</version>
+			<scope>test</scope>
+		</dependency>
+
+
+		<!-- Required to run the client. -->
+		<dependency>
+			<groupId>org.apache.openejb</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>${javaee-api-version}</version>
+		</dependency>
+
+		<!-- Required to run the client. -->
+		<dependency>
+			<groupId>org.apache.openejb</groupId>
+			<artifactId>openejb-client</artifactId>
+			<version>${openejb-version}</version>
+		</dependency>
+	</dependencies>
+
+
+
+
+	<build>
+		<plugins>
+			<!-- this configures the surefire plugin to run your tests with the javaagent enabled -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<forkMode>pertest</forkMode>
+					<argLine>-javaagent:${basedir}/target/openejb-javaagent-${openejb-version}.jar</argLine>
+					<workingDirectory>${basedir}/target</workingDirectory>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+					<id>copy</id>
+					<phase>process-resources</phase>
+					<goals>
+						<goal>copy</goal>
+					</goals>
+					<configuration>
+						<artifactItems>
+							<!-- this tells maven to copy the openejb-javaagent
+							jar into your target/ directory where surefire can see it -->
+							<artifactItem>
+								<groupId>org.apache.openejb</groupId>
+								<artifactId>openejb-javaagent</artifactId>
+								<version>${openejb-version}</version>
+								<outputDirectory>${project.build.directory}</outputDirectory>
+							</artifactItem>
+						</artifactItems>
+					</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+
+
+
+			<!-- TOMCAT -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>tomcat-maven-plugin</artifactId>
+			</plugin>
+
+
+
+	
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+
+				<configuration>
+					<executable>java</executable>
+					<mainClass>org.devilry.HelloClient2</mainClass>
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</build>
+
+</project>

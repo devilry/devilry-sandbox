@@ -1,0 +1,28 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+	<display-name>Devilry Sandbox</display-name>
+
+	<!--
+	<servlet>
+		<servlet-name>GetServlet</servlet-name>
+		<servlet-class>sandbox.GetServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetServlet</servlet-name>
+		<url-pattern>/servlets/GetServlet</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet>
+		<servlet-name>StaticProtoServlet</servlet-name>
+		<servlet-class>sandbox.StaticProtoServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>StaticProtoServlet</servlet-name>
+		<url-pattern>/servlets/StaticProtoServlet</url-pattern>
+	</servlet-mapping>
+	-->
+</web-app>
