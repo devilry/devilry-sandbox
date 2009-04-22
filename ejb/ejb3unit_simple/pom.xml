@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.devilry</groupId>
+	<artifactId>
+		devilry-sandbox-ejb3unit
+	</artifactId>
+	<name>
+		devilry :: sandbox :: ejb3unit
+	</name>
+	<version>0.1</version>
+
+
+	<dependencies>
+		<dependency>
+			<groupId>com.bm</groupId>
+			<artifactId>ejb3unit</artifactId>
+			<version>1.2</version>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<repositories>
+		<repository>
+			<id>ejb3unit</id>
+			<name>Wicket repository</name>
+			<url>http://ejb3unit.sourceforge.net/maven2</url>
+		</repository>
+	</repositories>
+</project>
