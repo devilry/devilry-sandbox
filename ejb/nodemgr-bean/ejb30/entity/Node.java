@@ -30,7 +30,7 @@ import javax.persistence.InheritanceType;
 public class Node implements java.io.Serializable {
 	@Id
 	@Column(nullable=false)
-	private String name;
+	private String nodeName;
 	
 	@Id
 	private Node parent;
@@ -40,12 +40,12 @@ public class Node implements java.io.Serializable {
 
 	public Node() { }
 
-	public String getName() {
-		return this.name;
+	public String getNodeName() {
+		return this.nodeName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setNodeName(String name) {
+		this.nodeName = name;
 	}
 
 	public Node getParent() {
@@ -76,7 +76,7 @@ public class Node implements java.io.Serializable {
 	}
 
 	public String getPath() {
-		return getParent()!=null?getParent().getPath() + "." + getName():getName();
+		return getParent()!=null?getParent().getPath() + "." + getNodeName():getNodeName();
 	}
 }
 

@@ -9,7 +9,10 @@ import java.util.Collection;
 @Entity
 @DiscriminatorValue("CN")
 public class CourseNode extends Node {
+	@Column(nullable=false)
 	private String courseName;
+
+	@Column(nullable=false)
 	private String courseCode;
 
 	public CourseNode() { }

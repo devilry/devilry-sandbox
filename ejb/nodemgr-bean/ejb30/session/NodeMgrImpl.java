@@ -36,7 +36,7 @@ public class NodeMgrImpl implements NodeMgrRemote {
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public Node addNode(String name, Node parent) {
 		Node node = new Node();
-		node.setName(name);
+		node.setNodeName(name);
 		node.setParent(parent);
 
 		if(node.getParent() == null) {
@@ -57,7 +57,7 @@ public class NodeMgrImpl implements NodeMgrRemote {
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public Node addCourseNode(String code, String name, Node parent) {
 		CourseNode node = new CourseNode();
-		node.setName(name);
+		node.setNodeName(code.toLowerCase());
 		node.setCourseCode(code);
 		node.setCourseName(name);
 		node.setParent(parent);
@@ -90,10 +90,10 @@ public class NodeMgrImpl implements NodeMgrRemote {
 		Query q;
 
 		if(parent == null) {
-			q = em.createQuery("SELECT n from Node n WHERE n.name=:name AND n.parent IS NULL");
+			q = em.createQuery("SELECT n from Node n WHERE n.nodeName=:name AND n.parent IS NULL");
 			q.setParameter("name", name);
 		} else {
-			q = em.createQuery("SELECT n from Node n WHERE n.name=:name AND n.parent IS NOT NULL AND n.parent.name=:parent");
+			q = em.createQuery("SELECT n from Node n WHERE n.nodeName=:name AND n.parent IS NOT NULL AND n.parent.nodeName=:parent");
 			q.setParameter("name", name);
 			q.setParameter("parent", parent);
 		}
