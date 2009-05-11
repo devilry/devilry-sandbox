@@ -27,7 +27,7 @@ public class NodeMgrImpl implements NodeMgrRemote {
 	@Resource
 	private SessionContext ctx;
 
-	private Node root;
+	private String rootPath;
 
 	public Node addNode(String name) {
 		return addNode(name, null);
@@ -40,7 +40,7 @@ public class NodeMgrImpl implements NodeMgrRemote {
 		node.setParent(parent);
 
 		if(node.getParent() == null) {
-			setRoot(node);
+			setRoot(node.getNodeName());
 			em.persist(node);
 		} else {
 			parent.addChild(node);
@@ -64,7 +64,7 @@ public class NodeMgrImpl implements NodeMgrRemote {
 
 		if(node.getParent() == null) {
 			// not sure if we should allow courses with no parent..
-			setRoot(node);
+			setRoot(node.getNodeName());
 			em.persist(node);
 		} else {
 			parent.addChild(node);
@@ -90,10 +90,10 @@ public class NodeMgrImpl implements NodeMgrRemote {
 		Query q;
 
 		if(parent == null) {
-			q = em.createQuery("SELECT n from Node n WHERE n.nodeName=:name AND n.parent IS NULL");
+			q = em.createQuery("SELECT n FROM Node n WHERE n.nodeName=:name AND n.parent IS NULL");
 			q.setParameter("name", name);
 		} else {
-			q = em.createQuery("SELECT n from Node n WHERE n.nodeName=:name AND n.parent IS NOT NULL AND n.parent.nodeName=:parent");
+			q = em.createQuery("SELECT n FROM Node n WHERE n.nodeName=:name AND n.parent IS NOT NULL AND n.parent.nodeName=:parent");
 			q.setParameter("name", name);
 			q.setParameter("parent", parent);
 		}
@@ -120,11 +120,14 @@ public class NodeMgrImpl implements NodeMgrRemote {
 
 	@PermitAll
 	public Node getRoot() {
-		return this.root;
+		Query q = em.createQuery("SELECT n FROM Node n WHERE n.nodeName=:name AND n.parent IS NULL");
+		q.setParameter("name", this.rootPath);
+
+		return (Node) q.getSingleResult();
 	}
 
-	public void setRoot(Node root) {
-		this.root = root;
+	public void setRoot(String path) {
+		this.rootPath = path;
 	}
 }
 

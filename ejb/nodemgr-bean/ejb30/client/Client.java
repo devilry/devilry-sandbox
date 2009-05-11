@@ -44,7 +44,7 @@ public class Client {
 				}
 			} */
 
-			printCourses(mgr.findNode("uio"));
+			printCourses(mgr.getRoot());
 		} catch(Exception e) {
 			e.printStackTrace();
 			System.exit(-1);
