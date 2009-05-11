@@ -14,5 +14,7 @@ public interface NodeMgrRemote {
 	public Node findNode(String name);
 	public Node findNode(String name, String parent);
 	public Node findByPath(String path);
+	public void setRoot(Node node);
+	public Node getRoot();
 }
 
