@@ -16,6 +16,7 @@ import javax.annotation.Resource;
 import java.security.Principal;
 
 import ejb30.entity.Node;
+import ejb30.entity.CourseNode;
 
 @Stateless(mappedName = "NodeMgrImplRemote")
 @RolesAllowed("admin")
@@ -28,17 +29,41 @@ public class NodeMgrImpl implements NodeMgrRemote {
 
 	private Node root;
 
-	public Node add(String name) {
-		return add(name, null);
+	public Node addNode(String name) {
+		return addNode(name, null);
 	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public Node add(String name, Node parent) {
+    public Node addNode(String name, Node parent) {
 		Node node = new Node();
 		node.setName(name);
 		node.setParent(parent);
 
 		if(node.getParent() == null) {
+			setRoot(node);
+			em.persist(node);
+		} else {
+			parent.addChild(node);
+			em.merge(parent);
+		}
+
+		return node;
+	}
+	
+	public Node addCourseNode(String code, String name) {
+		return addCourseNode(code, name, null);
+	}
+
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+	public Node addCourseNode(String code, String name, Node parent) {
+		CourseNode node = new CourseNode();
+		node.setName(name);
+		node.setCourseCode(code);
+		node.setCourseName(name);
+		node.setParent(parent);
+
+		if(node.getParent() == null) {
+			// not sure if we should allow courses with no parent..
 			setRoot(node);
 			em.persist(node);
 		} else {

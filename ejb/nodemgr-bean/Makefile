@@ -18,5 +18,6 @@ run:
 clean:
 	@rm ejb30/client/*.class
 	@rm ejb30/session/*.class
+	@rm ejb30/entity/*.class
 	@rm NodeMgr.jar
 

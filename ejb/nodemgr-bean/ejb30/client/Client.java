@@ -2,6 +2,7 @@ package ejb30.client;
 
 import ejb30.session.*;
 import ejb30.entity.Node;
+import ejb30.entity.CourseNode;
 
 import java.util.Properties;
 import javax.naming.InitialContext;
@@ -21,14 +22,21 @@ public class Client {
                     NodeMgrRemote mgr = (NodeMgrRemote) ctx.lookup("NodeMgrImplRemote");
 
 					if(mgr.findNode("uio") == null) {
-						mgr.add("uio");
-						mgr.add("matnat", mgr.findNode("uio"));
-						mgr.add("ifi", mgr.findNode("matnat", "uio"));
-						mgr.add("inf1000", mgr.findNode("ifi", "matnat"));
-						mgr.add("inf1010", mgr.findNode("ifi", "matnat"));
+						mgr.addNode("uio");
+						mgr.addNode("matnat", mgr.findNode("uio"));
+						mgr.addNode("ifi", mgr.findNode("matnat", "uio"));
+						mgr.addCourseNode("INF1000", "Grunnkurs i objektorientert programmering",
+								mgr.findNode("ifi", "matnat"));
+						mgr.addCourseNode("INF1010", "Objektorientert programmering",
+								mgr.findNode("ifi", "matnat"));
 					}
 
-					System.out.println(mgr.findByPath("uio.matnat.ifi").getChildren().size());
+					for(Object o : mgr.findByPath("uio.matnat.ifi").getChildren()) {
+						if(o instanceof CourseNode) {
+							CourseNode cn = (CourseNode) o;
+							System.out.println("Code: " + cn.getCourseCode() + ", Name: " + cn.getCourseName());
+						}
+					}
                 } catch(Exception e) {
 					e.printStackTrace();
                     System.exit(-1);

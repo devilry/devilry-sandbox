@@ -16,8 +16,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
 import java.util.Collection;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 @Entity
+@Inheritance(strategy=InheritanceType.JOINED)
+@DiscriminatorColumn(discriminatorType=DiscriminatorType.INTEGER, name="nodeTypeId")
+@DiscriminatorValue("N")
 public class Node implements java.io.Serializable {
 	@Id
 	@Column(nullable=false)

@@ -6,8 +6,10 @@ import java.util.Collection;
 
 @Remote
 public interface NodeMgrRemote {
-    public Node add(String name);
-    public Node add(String name, Node parent);
+    public Node addNode(String name);
+    public Node addNode(String name, Node parent);
+	public Node addCourseNode(String code, String name);
+	public Node addCourseNode(String code, String name, Node parent);
 	public Node update(Node node);
 	public Node findNode(String name);
 	public Node findNode(String name, String parent);
