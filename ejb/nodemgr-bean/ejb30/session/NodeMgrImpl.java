@@ -17,6 +17,7 @@ import java.security.Principal;
 
 import ejb30.entity.Node;
 import ejb30.entity.CourseNode;
+import ejb30.entity.PeriodNode;
 
 @Stateless
 @RolesAllowed("admin")
@@ -30,14 +31,27 @@ public class NodeMgrImpl implements NodeMgrRemote {
 	private String rootPath;
 
 	public Node addNode(String name) {
-		return addNode(name, null);
+		return addNode(name, null, null);
+	}
+
+	public Node addNode(String name, String display) {
+		return addNode(name, display, null);
+	}
+
+	public Node addNode(String name, Node parent) {
+		return addNode(name, null, parent);
 	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public Node addNode(String name, Node parent) {
+    public Node addNode(String name, String display, Node parent) {
 		Node node = new Node();
 		node.setNodeName(name);
 		node.setParent(parent);
+
+		if(display == null)
+			node.setDisplayName(name);
+		else
+			node.setDisplayName(display);
 
 		if(node.getParent() == null) {
 			setRoot(node.getNodeName());
@@ -59,7 +73,7 @@ public class NodeMgrImpl implements NodeMgrRemote {
 		CourseNode node = new CourseNode();
 		node.setNodeName(code.toLowerCase());
 		node.setCourseCode(code);
-		node.setCourseName(name);
+		node.setDisplayName(name);
 		node.setParent(parent);
 
 		if(node.getParent() == null) {
@@ -74,6 +88,27 @@ public class NodeMgrImpl implements NodeMgrRemote {
 		return node;
 	}
 
+	public Node addPeriodNode(String name, Date start, Date end, CourseNode parent) {
+		return addPeriodNode(name, null, start, end, parent);
+	}
+
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+	public Node addPeriodNode(String name, String display, Date start, Date end, CourseNode parent) {
+		PeriodNode node = new PeriodNode();
+		node.setNodeName(name);
+		node.setStartDate(start);
+		node.setEndDate(end);
+		
+		if(display == null)
+			node.setDisplayName(name);
+		else
+			node.setDisplayName(display);
+
+		parent.addChild(node);
+		em.merge(parent);
+
+		return node;
+	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public Node update(Node node) {

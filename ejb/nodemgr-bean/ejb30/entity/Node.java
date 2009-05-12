@@ -4,15 +4,8 @@ package ejb30.entity;
 import javax.annotation.security.RolesAllowed;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Lob;
 import javax.persistence.Column;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
 import java.util.Collection;
@@ -25,7 +18,7 @@ import javax.persistence.InheritanceType;
 
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
-@DiscriminatorColumn(discriminatorType=DiscriminatorType.INTEGER, name="nodeTypeId")
+@DiscriminatorColumn(discriminatorType=DiscriminatorType.STRING, name="nodeType")
 @DiscriminatorValue("N")
 public class Node implements java.io.Serializable {
 	@Id
@@ -34,6 +27,8 @@ public class Node implements java.io.Serializable {
 	
 	@Id
 	private Node parent;
+
+	private String displayName;
 
 	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	private Collection<Node> children; 
@@ -46,6 +41,14 @@ public class Node implements java.io.Serializable {
 
 	public void setNodeName(String name) {
 		this.nodeName = name;
+	}
+
+	public String getDisplayName() {
+		return this.displayName;
+	}
+
+	public void setDisplayName(String name) {
+		this.displayName = name;
 	}
 
 	public Node getParent() {

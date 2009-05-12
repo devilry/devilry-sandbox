@@ -10,20 +10,9 @@ import java.util.Collection;
 @DiscriminatorValue("CN")
 public class CourseNode extends Node {
 	@Column(nullable=false)
-	private String courseName;
-
-	@Column(nullable=false)
 	private String courseCode;
 
 	public CourseNode() { }
-
-	public void setCourseName(String name) {
-		this.courseName = name;
-	}
-
-	public String getCourseName() {
-		return this.courseName;
-	}
 
 	public void setCourseCode(String code) {
 		this.courseCode = code;
