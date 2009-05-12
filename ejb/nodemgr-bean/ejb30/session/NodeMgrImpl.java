@@ -18,7 +18,7 @@ import java.security.Principal;
 import ejb30.entity.Node;
 import ejb30.entity.CourseNode;
 
-@Stateless(mappedName = "NodeMgrImplRemote")
+@Stateless
 @RolesAllowed("admin")
 public class NodeMgrImpl implements NodeMgrRemote {
 	@PersistenceContext(unitName="NodeService")
