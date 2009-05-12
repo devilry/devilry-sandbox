@@ -26,6 +26,7 @@ public class Node implements java.io.Serializable {
 	private String nodeName;
 	
 	@Id
+	@Column(nullable=true)
 	private Node parent;
 
 	private String displayName;
