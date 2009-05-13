@@ -18,11 +18,7 @@ public class TreeManagerImpl implements TreeManagerRemote {
 		Node node = new Node();
 		node.setName(name);
 		node.setDisplayName(displayName);
-
-		if(parentId != -1) {
-			Node pn = getNode(parentId);
-			node.setParent(pn);
-		}
+		node.setParent( getNode(parentId) );
 
 		em.persist(node);
 
