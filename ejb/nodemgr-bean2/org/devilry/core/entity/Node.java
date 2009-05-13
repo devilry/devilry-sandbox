@@ -7,7 +7,7 @@ import javax.persistence.*;
 	name="NODE",
 	uniqueConstraints=@UniqueConstraint(columnNames={"name", "parent"})
 )
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy=InheritanceType.JOINED)
 @DiscriminatorColumn(discriminatorType=DiscriminatorType.STRING, name="nodeType")
 @DiscriminatorValue("N")
 public class Node implements java.io.Serializable {
