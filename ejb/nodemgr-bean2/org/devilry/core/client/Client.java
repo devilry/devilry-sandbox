@@ -23,16 +23,16 @@ public class Client {
 				mgr.addNode("ifi", "Institutt for informatikk", 
 						mgr.getNodeIdFromPath("uio.matnat"));
 
-				mgr.addCourseNode("INF1000", "Grunnkurs i objektorientert programmering",
+				mgr.addCourseNode("inf1000", "Grunnkurs i objektorientert programmering",
 						mgr.getNodeIdFromPath("uio.matnat.ifi"));
-				mgr.addCourseNode("INF1010", "Objektorientert programmering",
+				mgr.addCourseNode("inf1010", "Objektorientert programmering",
 						mgr.getNodeIdFromPath("uio.matnat.ifi"));
 
 				Calendar start = new GregorianCalendar(2009, 00, 01);
 				Calendar end = new GregorianCalendar(2009, 05, 15);
 
 				mgr.addPeriodNode("fall09", "Fall 2009", start.getTime(), end.getTime(), 
-						mgr.getNodeIdFromPath("uio.matnat.ifi.inf1010"));
+						mgr.getNodeIdFromPath("uio.matnat.ifi.inf1000"));
 
 				start = new GregorianCalendar(2009, 07, 01);
 				end = new GregorianCalendar(2009, 11, 20);

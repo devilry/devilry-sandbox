@@ -25,29 +25,6 @@ public class TreeManagerImpl implements TreeManagerRemote {
 		return node.getId();
 	}
 
-	public long getNodeIdFromPath(String path) {
-		String[] sp = path.split("\\.");
-
-		if(sp.length == 1) {
-			return getNodeId(sp[0], -1);
-		} else if(sp.length > 1) {
-			int length = 0;
-			long id = 0;
-
-			while(length < sp.length-1) {
-				id = getNodeId(sp[length+1], sp[length]);
-				length++;
-
-				if(id == -1)
-					return id;
-			}
-
-			return id;
-		}
-
-		return -1;
-	}
-
 	public long addCourseNode(String name, String courseCode, long parentId) {
 		return addCourseNode(name, name, courseCode, parentId);
 	}
@@ -79,6 +56,28 @@ public class TreeManagerImpl implements TreeManagerRemote {
 		em.persist(node);
 
 		return node.getId();
+	}
+	public long getNodeIdFromPath(String path) {
+		String[] sp = path.split("\\.");
+
+		if(sp.length == 1) {
+			return getNodeId(sp[0], -1);
+		} else if(sp.length > 1) {
+			int length = 0;
+			long id = 0;
+
+			while(length < sp.length-1) {
+				id = getNodeId(sp[length+1], sp[length]);
+				length++;
+
+				if(id == -1)
+					return id;
+			}
+
+			return id;
+		}
+
+		return -1;
 	}
 
 	private Node getNode(long nodeId) {

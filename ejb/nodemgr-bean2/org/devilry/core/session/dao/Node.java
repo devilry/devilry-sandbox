@@ -11,7 +11,7 @@ public class Node implements NodeRemote {
 	protected org.devilry.core.entity.Node node;
 
 	public boolean init(long nodeId) {
-		Query q = em.createQuery("SELECT n FROM Node n WHERE n.id = :nodeId");
+		Query q = em.createQuery("SELECT n FROM Node n WHERE n.id=:nodeId");
 		q.setParameter("nodeId", nodeId);
 
 		try {

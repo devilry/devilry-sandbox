@@ -6,7 +6,6 @@ import org.devilry.core.entity.*;
 @Entity
 @DiscriminatorValue("CN")
 public class CourseNode extends Node {
-	@Column(nullable=false)
 	private String courseCode;
 
 	public CourseNode() {
