@@ -16,7 +16,7 @@ public class TreeManagerImpl implements TreeManagerRemote {
 
 	public long addNode(String name, String displayName, long parentId) {
 		Node node = new Node();
-		node.setName(name);
+		node.setName(name.toLowerCase());
 		node.setDisplayName(displayName);
 		node.setParent( getNode(parentId) );
 
@@ -25,13 +25,13 @@ public class TreeManagerImpl implements TreeManagerRemote {
 		return node.getId();
 	}
 
-	public long addCourseNode(String name, String courseCode, long parentId) {
-		return addCourseNode(name, name, courseCode, parentId);
+	public long addCourseNode(String name, String displayName, long parentId) {
+		return addCourseNode(name, name, displayName, parentId);
 	}
 
-	public long addCourseNode(String name, String displayName, String courseCode, long parentId) {
+	public long addCourseNode(String name, String courseCode, String displayName, long parentId) {
 		CourseNode node = new CourseNode();
-		node.setName(name);
+		node.setName(name.toLowerCase());
 		node.setDisplayName(displayName);
 		node.setCourseCode(courseCode);
 		node.setParent( getNode(parentId) );
@@ -47,7 +47,7 @@ public class TreeManagerImpl implements TreeManagerRemote {
 
 	public long addPeriodNode(String name, String displayName, Date start, Date end, long parentId) {
 		PeriodNode node = new PeriodNode();
-		node.setName(name);
+		node.setName(name.toLowerCase());
 		node.setDisplayName(displayName);
 		node.setStartDate(start);
 		node.setEndDate(end);
