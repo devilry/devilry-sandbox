@@ -4,6 +4,7 @@ import java.util.*;
 import javax.naming.InitialContext;
 
 import org.devilry.core.session.*;
+import org.devilry.core.session.dao.*;
 
 public class Client {
     public static void main(String args[]) throws Exception {
@@ -41,7 +42,18 @@ public class Client {
 
 			}
 
-			System.out.println(mgr.getNodeIdFromPath("uio.matnat.ifi"));
+			NodeRemote ifi = (NodeRemote) ctx.lookup("org.devilry.core.session.dao.NodeRemote");
+			if(ifi.init( mgr.getNodeIdFromPath("uio.matnat.ifi") )) {
+				System.out.println( ifi.getName() );
+			}
+
+			System.out.println( mgr.getNodeIdFromPath("uio.matnat.ifi.inf1000") );
+
+			CourseNodeRemote inf1000 = (CourseNodeRemote) ctx.lookup("org.devilry.core.session.dao.CourseNodeRemote");
+			if(inf1000.init( mgr.getNodeIdFromPath("uio.matnat.ifi.inf1000") )) {
+				System.out.println( inf1000.getName() );
+			}
+
 		} catch(Exception e) {
 			e.printStackTrace();
 			System.exit(-1);
