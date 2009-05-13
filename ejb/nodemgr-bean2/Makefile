@@ -1,10 +1,10 @@
 
 all: 
-	javac -cp $(J2EE_CLASSPATH):. org/devilry/client/*.java
-	javac -cp $(J2EE_CLASSPATH):. org/devilry/session/*.java
-	javac -cp $(J2EE_CLASSPATH):. org/devilry/entity/*.java
+	javac -cp $(J2EE_CLASSPATH):. org/devilry/core/client/*.java
+	javac -cp $(J2EE_CLASSPATH):. org/devilry/core/session/*.java
+	javac -cp $(J2EE_CLASSPATH):. org/devilry/core/entity/*.java
 	echo "Creating TreeManager.jar:"
-	jar cf TreeManager.jar META-INF/* org/devilry/session/*.class org/devilry/entity/*.class 
+	jar cf TreeManager.jar META-INF/* org/devilry/core/session/*.class org/devilry/core/entity/*.class 
 
 install: 
 	asadmin deploy --createtables=true TreeManager.jar
@@ -13,11 +13,11 @@ uninstall:
 	asadmin undeploy --droptables=true TreeManager
 
 run:
-	java -classpath .:$(J2EE_CLASSPATH) org.devilry.client.Client
+	java -classpath .:$(J2EE_CLASSPATH) org.devilry.core.client.Client
 
 clean:
-	@rm org/devilry/client/*.class
-	@rm org/devilry/session/*.class
-	@rm org/devilry/entity/*.class
+	@rm org/devilry/core/client/*.class
+	@rm org/devilry/core/session/*.class
+	@rm org/devilry/core/entity/*.class
 	@rm TreeManager.jar
 

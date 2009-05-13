@@ -1,9 +1,9 @@
-
-package org.devilry.session;
+package org.devilry.core.session;
 
 import javax.ejb.*;
 import javax.persistence.*;
-import org.devilry.entity.*;
+import java.util.Date;
+import org.devilry.core.entity.*;
 
 @Stateless
 public class TreeManagerImpl implements TreeManagerRemote {
@@ -50,6 +50,39 @@ public class TreeManagerImpl implements TreeManagerRemote {
 		}
 
 		return -1;
+	}
+
+	public long addCourseNode(String name, String courseCode, long parentId) {
+		return addCourseNode(name, name, courseCode, parentId);
+	}
+
+	public long addCourseNode(String name, String displayName, String courseCode, long parentId) {
+		CourseNode node = new CourseNode();
+		node.setName(name);
+		node.setDisplayName(displayName);
+		node.setCourseCode(courseCode);
+		node.setParent( getNode(parentId) );
+
+		em.persist(node);
+		
+		return node.getId();
+	}
+
+	public long addPeriodNode(String name, Date start, Date end, long parentId) {
+		return addPeriodNode(name, name, start, end, parentId);
+	}
+
+	public long addPeriodNode(String name, String displayName, Date start, Date end, long parentId) {
+		PeriodNode node = new PeriodNode();
+		node.setName(name);
+		node.setDisplayName(displayName);
+		node.setStartDate(start);
+		node.setEndDate(end);
+		node.setParent( getNode(parentId) );
+
+		em.persist(node);
+
+		return node.getId();
 	}
 
 	private Node getNode(long nodeId) {

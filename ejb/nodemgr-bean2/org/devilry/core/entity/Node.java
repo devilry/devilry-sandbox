@@ -1,5 +1,4 @@
-
-package org.devilry.entity;
+package org.devilry.core.entity;
 
 import javax.persistence.*;
 
@@ -8,9 +7,10 @@ import javax.persistence.*;
 	name="NODE",
 	uniqueConstraints=@UniqueConstraint(columnNames={"name", "parent"})
 )
+@Inheritance(strategy=InheritanceType.JOINED)
 @DiscriminatorColumn(discriminatorType=DiscriminatorType.STRING, name="nodeType")
 @DiscriminatorValue("N")
-public class Node {
+public class Node implements java.io.Serializable {
 	@Id
 	@GeneratedValue
 	protected long id;
