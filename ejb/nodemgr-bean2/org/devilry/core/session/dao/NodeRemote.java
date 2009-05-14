@@ -11,5 +11,6 @@ public interface NodeRemote {
 	public String getName();
 	public void setDisplayName(String name);
 	public String getDisplayName();
+	public String getPath();
 }
 

@@ -46,6 +46,7 @@ public class Client {
 			if(ifi.init( mgr.getNodeIdFromPath("uio.matnat.ifi") )) {
 				System.out.println( "ifi: " + ifi.getName() );
 				System.out.println( "ifi: " + ifi.getDisplayName() );
+				System.out.println( "ifi: " + ifi.getPath() );
 			}
 
 			CourseNodeRemote inf1000 = (CourseNodeRemote) ctx.lookup("org.devilry.core.session.dao.CourseNodeRemote");
@@ -53,6 +54,7 @@ public class Client {
 				System.out.println( "inf1000: " + inf1000.getName() );
 				System.out.println( "inf1000: " + inf1000.getDisplayName() );
 				System.out.println( "inf1000: " + inf1000.getCourseCode() );
+				System.out.println( "inf1000: " + inf1000.getPath() );
 			}
 
 			PeriodNodeRemote fall09 = (PeriodNodeRemote) ctx.lookup("org.devilry.core.session.dao.PeriodNodeRemote");
@@ -61,6 +63,7 @@ public class Client {
 				System.out.println( "fall09: " + fall09.getDisplayName() );
 				System.out.println( "fall09: " + fall09.getStartDate() );
 				System.out.println( "fall09: " + fall09.getEndDate() );
+				System.out.println( "fall09: " + fall09.getPath() );
 
 			}
 

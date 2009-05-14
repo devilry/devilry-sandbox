@@ -49,5 +49,26 @@ public class Node implements NodeRemote {
 	public String getDisplayName() {
 		return node.getDisplayName();
 	}
+
+	public String getPath() {
+		org.devilry.core.entity.Node cn = node;
+		String path = null;
+
+		while(true) {
+			if(cn.getParent() != null) {
+				if(path==null)
+					path = cn.getName();
+				else
+					path = cn.getName() + "." + path;
+
+				cn = cn.getParent();
+			} else {
+				path = cn.getName() + "." + path;
+				break;
+			}
+		}
+		
+		return path;
+	}
 }
 
