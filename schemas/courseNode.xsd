@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:attribute name="courseCode" type="xsd:string"/>
+
+	<xsd:complexType name="courseNode">
+		<xsd:complexContent>
+			<xsd:extension base="node">
+				<xsd:attribute ref="courseCode" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+</xsd:schema>
+

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<node name="uio" id="1" displayName="Universitetet i Oslo">
+	<node name="matnat" id="2" displayName="Det matematisk-naturvitenskapelige fakultet">
+		<node name="ifi" id="3" displayName="Institutt for informatikk">
+			<courseNode name="inf1000" id="4" displayName="Grunnkurs i objektorientert programmering" 
+				courseCode="INF1000">
+				
+				<periodNode name="fall09" id="6" displayName="Fall 2009"
+					startDate="2009-01-01T00:00:00"
+					endDate="2009-06-01T00:00:00"/>
+
+			</courseNode>
+
+			<courseNode name="inf1010" id="5" displayName="Objektorientert programmering" 
+				courseCode="INF1010">
+
+				<periodNode name="fall09" id="7" displayName="Fall 2009"
+					startDate="2009-01-01T00:00:00"
+					endDate="2009-06-01T00:00:00"/>
+
+			</courseNode>
+		</node>
+	</node>
+</node>
+
+

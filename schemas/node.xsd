@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:attribute name="name" type="xsd:string"/>
+	<xsd:attribute name="displayName" type="xsd:string"/>
+	<xsd:attribute name="id" type="xsd:integer"/>
+
+	<xsd:complexType name="node">
+		<xsd:choice>
+			<xsd:element name="node" type="node" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="courseNode" type="courseNode" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="periodNode" type="periodNode" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:choice>
+
+		<xsd:attribute ref="id" use="required"/>
+		<xsd:attribute ref="name" use="required"/>
+		<xsd:attribute ref="displayName" use="required"/>
+	</xsd:complexType>
+</xsd:schema>
+

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:attribute name="startDate" type="xsd:dateTime"/>
+	<xsd:attribute name="endDate" type="xsd:dateTime"/>
+
+	<xsd:complexType name="periodNode">
+		<xsd:complexContent>
+			<xsd:extension base="node">
+				<xsd:attribute ref="startDate" use="required"/>
+				<xsd:attribute ref="endDate" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+</xsd:schema>
