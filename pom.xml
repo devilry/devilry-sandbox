@@ -18,6 +18,7 @@
 		<module>testng</module>
         <module>maven-glassfishtools-plugin</module>
         <module>jboss-embedded</module>
+        <module>jboss-embedded-example</module>
     </modules>
 	
 
