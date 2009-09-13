@@ -54,13 +54,6 @@
             <artifactId>hibernate-all</artifactId>
             <version>${jboss.version}</version>
         </dependency>
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.5</version>
-            <!--<scope>test</scope>-->
-        </dependency>
     </dependencies>
 
     <build>
@@ -75,11 +68,11 @@
             files to copy unaltered as illustrated below:
             -->
             <resource>
-                <directory>src/test/bootstrap</directory>
+                <directory>src/main/jboss-bootstrap</directory>
                 <filtering>false</filtering>
             </resource>
             <resource>
-                <directory>src/test/bootstrap</directory>
+                <directory>src/main/jboss-bootstrap</directory>
                 <filtering>true</filtering>
                 <includes>
                     <include>**/*.xml</include>

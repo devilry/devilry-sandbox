@@ -4,7 +4,6 @@ import org.jboss.embedded.Bootstrap;
 import org.jboss.virtual.plugins.context.vfs.AssembledDirectory;
 import org.jboss.virtual.plugins.context.vfs.AssembledContextFactory;
 import org.jboss.deployers.spi.DeploymentException;
-import static org.junit.Assert.fail;
 
 import java.lang.reflect.Field;
 import java.io.File;
@@ -24,7 +23,7 @@ public abstract class AbstractJbossEmbeddedTest {
 			field.set(null, value);
 			field.setAccessible(oldState);
 		} catch (Exception ex) {
-			fail(ex.getMessage());
+			throw new RuntimeException("Failed to set VM field value.", ex);
 		}
 	}
 
@@ -69,14 +68,14 @@ public abstract class AbstractJbossEmbeddedTest {
 		// The while loop is a workaround for a bug, which I believe might
 		// be a result of delay when undeploying, but Thread.wait(...) does
 		// not seem to help, so it might be something else. failedCount of
-		// 2 seems to be the magic number:) The workaround to avoid massive
+		// 3 seems to be the magic number:) The workaround to avoid massive
 		// amounts of noise in the logs, is in src/test/bootstrap/log4j.xml.
 		int failedCount = 0;
 		while (true) {
 			try {
 				Bootstrap.getInstance().deploy(jar);
 			} catch (DeploymentException e) {
-				if (failedCount == 2) {
+				if (failedCount == 3) {
 					throw new RuntimeException("Unable to deploy", e);
 				} else {
 					failedCount ++;

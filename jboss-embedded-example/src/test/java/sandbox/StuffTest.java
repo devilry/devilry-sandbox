@@ -46,13 +46,4 @@ public class StuffTest extends AbstractJbossEmbeddedTest {
 		StuffRemote h = (StuffRemote) ctx.lookup("Stuff/remote");
 		assertEquals(h.helloWorld(), "Hello remote");
 	}
-
-	protected void addToJar(AssembledDirectory jar, File target, File classes,
-							File testclasses)
-			throws ClassNotFoundException {
-		new JbossJarCreator(jar, classes).addToJar();
-		new JbossJarCreatorIgnoreBoostrapfiles(jar, testclasses).addIgnore(
-				"META-INF/MANIFEST.MF").addToJar();
-		JbossJarCreator.printJar(jar);
-	}
 }
