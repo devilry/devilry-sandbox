@@ -40,7 +40,7 @@ public abstract class AbstractJbossEmbeddedTest {
 								   File testclasses)
 			throws ClassNotFoundException {
 		new JbossJarCreator(theJar, classes).addToJar();
-		new JbossTestJarCreator(theJar, testclasses).addToJar();
+		new JbossJarCreatorIgnoreBoostrapfiles(theJar, testclasses).addToJar();
 	}
 
 	protected void deploy() throws DeploymentException {

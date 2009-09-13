@@ -20,11 +20,15 @@ class JbossJarCreator {
 		ignore = new HashSet<String>();
 	}
 
-	public JbossJarCreator ignorePaths(String... ignorePaths) {
+	public JbossJarCreator addIgnore(String... ignorePaths) {
 		for (String p : ignorePaths) {
 			ignore.add(p);
 		}
 		return this;
+	}
+
+	public void clearIgnore() {
+		ignore.clear();
 	}
 
 	public void addToJar() throws ClassNotFoundException {
@@ -74,7 +78,9 @@ class JbossJarCreator {
 
 	protected void addFile(File file, String path,
 						   AssembledDirectory curAssembledDir) {
-		curAssembledDir.addResource(path.replace("/", File.separator));
+		path = path.replace("/", File.separator);
+		System.err.println("*************** " + path);
+		curAssembledDir.addResource(path);
 	}
 
 
