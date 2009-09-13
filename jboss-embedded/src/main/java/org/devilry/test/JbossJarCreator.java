@@ -1,4 +1,4 @@
-package sandbox;
+package org.devilry.test;
 
 import org.jboss.virtual.plugins.context.vfs.AssembledDirectory;
 import org.jboss.virtual.VirtualFile;
@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.HashSet;
 
-class JbossJarCreator {
+public class JbossJarCreator {
 	private AssembledDirectory jar;
 	private File rootDir;
 	protected Set<String> ignore;
@@ -79,7 +79,6 @@ class JbossJarCreator {
 	protected void addFile(File file, String path,
 						   AssembledDirectory curAssembledDir) {
 		path = path.replace("/", File.separator);
-		System.err.println("*************** " + path);
 		curAssembledDir.addResource(path);
 	}
 

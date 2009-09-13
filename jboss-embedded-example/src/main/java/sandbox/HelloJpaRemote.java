@@ -3,6 +3,6 @@ package sandbox;
 import javax.ejb.Remote;
 
 @Remote
-public interface StuffRemote {
+public interface HelloJpaRemote {
 	public String helloWorld();
 }

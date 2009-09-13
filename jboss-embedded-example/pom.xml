@@ -1,66 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+				 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>org.devilry</groupId>
-    <artifactId>jboss-embedded-example</artifactId>
-    <version>0.1</version>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.devilry</groupId>
+	<artifactId>jboss-embedded-example</artifactId>
+	<version>0.1</version>
+	<packaging>war</packaging>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.devilry</groupId>
-            <artifactId>jboss-embedded</artifactId>
-            <version>0.1</version>
-        </dependency>
+	<dependencies>
+		<dependency>
+			<groupId>org.devilry</groupId>
+			<artifactId>jboss-embedded</artifactId>
+			<version>0.1</version>
+		</dependency>
 
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.5</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.5</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 
-    <build>
+	<build>
 
-        <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
-                </configuration>
-            </plugin>
+		<!-- Include webapp in test resources, to deploy it to JBoss embedded in tests. -->
+		<testResources>
+			<testResource>
+				<directory>src/main/webapp</directory>
+				<filtering>false</filtering>
+			</testResource>
+		</testResources>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>unpack</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.devilry</groupId>
-                                    <artifactId>jboss-embedded</artifactId>
-                                    <version>0.1</version>
-                                    <type>jar</type>
-                                    <outputDirectory>
-                                        ${project.build.directory}/test-classes/
-                                    </outputDirectory>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
 
-    </build>
+
+			<!-- Copy the default JBoss bootstrap files into target/test-classes/.
+			With this setup, you can override any of the bootstrap files in
+			src/test/resources/. For example, you can put your own log4j.xml
+			in src/test/resources/log4j.xml. -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>unpack</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>org.devilry</groupId>
+									<artifactId>jboss-embedded</artifactId>
+									<version>0.1</version>
+									<type>jar</type>
+
+									<!-- Unpack the jboss configuration to target/test-classes/. -->
+									<outputDirectory>
+										${project.build.directory}/test-classes/
+									</outputDirectory>
+
+									<!-- Together with overWriteIfNewer below, this makes it possible
+									 to override the jboss configuration files in src/test/resources/ -->
+									<overWrite>false</overWrite>
+								</artifactItem>
+							</artifactItems>
+
+							<!-- See overWrite comment.. -->
+							<overWriteIfNewer>false</overWriteIfNewer>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+
+	</build>
 </project>

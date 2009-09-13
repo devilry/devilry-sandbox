@@ -1,4 +1,4 @@
-package sandbox;
+package org.devilry.test;
 
 import org.jboss.embedded.Bootstrap;
 import org.jboss.virtual.plugins.context.vfs.AssembledDirectory;

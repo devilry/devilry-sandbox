@@ -5,17 +5,15 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import org.jboss.deployers.spi.DeploymentException;
-import org.jboss.virtual.plugins.context.vfs.AssembledDirectory;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import org.devilry.test.AbstractJbossEmbeddedTest;
 
-import java.io.File;
 
-
-public class StuffTest extends AbstractJbossEmbeddedTest {
+public class HelloJpaTest extends AbstractJbossEmbeddedTest {
 	@Before
 	public void setUp() throws DeploymentException {
 		deploy();
@@ -29,21 +27,21 @@ public class StuffTest extends AbstractJbossEmbeddedTest {
 	@Test
 	public void testRemote() throws NamingException {
 		InitialContext ctx = new InitialContext();
-		StuffRemote h = (StuffRemote) ctx.lookup("Stuff/remote");
+		HelloJpaRemote h = (HelloJpaRemote) ctx.lookup("HelloJpa/remote");
 		assertEquals(h.helloWorld(), "Hello remote");
 	}
 
 	@Test
 	public void testLocal() throws NamingException {
 		InitialContext ctx = new InitialContext();
-		StuffLocal h = (StuffLocal) ctx.lookup("Stuff/local");
+		HelloJpaLocal h = (HelloJpaLocal) ctx.lookup("HelloJpa/local");
 		assertEquals(h.helloLocal(), "Hello local");
 	}
 
 	@Test
 	public void testTull() throws NamingException {
 		InitialContext ctx = new InitialContext();
-		StuffRemote h = (StuffRemote) ctx.lookup("Stuff/remote");
+		HelloJpaRemote h = (HelloJpaRemote) ctx.lookup("HelloJpa/remote");
 		assertEquals(h.helloWorld(), "Hello remote");
 	}
 }

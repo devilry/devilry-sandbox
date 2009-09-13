@@ -1,10 +1,10 @@
-package sandbox;
+package org.devilry.test;
 
 import org.jboss.virtual.plugins.context.vfs.AssembledDirectory;
 
 import java.io.File;
 
-class JbossJarCreatorIgnoreBoostrapfiles extends JbossJarCreator {
+public class JbossJarCreatorIgnoreBoostrapfiles extends JbossJarCreator {
 
 	public JbossJarCreatorIgnoreBoostrapfiles(AssembledDirectory jar, File rootDir)
 			throws ClassNotFoundException {

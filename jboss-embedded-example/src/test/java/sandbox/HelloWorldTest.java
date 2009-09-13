@@ -7,6 +7,8 @@ import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
+import org.devilry.test.AbstractJbossEmbeddedTest;
+import org.devilry.test.JbossJarCreator;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
