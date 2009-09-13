@@ -13,10 +13,10 @@ import sun.misc.VM;
 
 
 public abstract class AbstractJbossEmbeddedTest {
-	private static AssembledDirectory jar;
+	private AssembledDirectory jar;
 
 
-	private static void setVMFieldValue(String name, Boolean value) {
+	private void setVMFieldValue(String name, Boolean value) {
 		try {
 			Field field = VM.class.getDeclaredField(name);
 			boolean oldState = field.isAccessible();
@@ -28,14 +28,22 @@ public abstract class AbstractJbossEmbeddedTest {
 		}
 	}
 
-	protected static void addToJar(AssembledDirectory j, File target, File classes,
-							File testclasses)
+	/** Add files to the deployed jar.
+	 *
+	 * @param theJar The jar file.
+	 * @param target The target/ directory.
+	 * @param classes The target/classes directory.
+	 * @param testclasses The target/test-classes directory.
+	 *  */
+	protected void addToJar(AssembledDirectory theJar, File target,
+								   File classes,
+								   File testclasses)
 			throws ClassNotFoundException {
-		new JbossJarCreator(j, classes).addToJar();
-		new JbossTestJarCreator(j, testclasses).addToJar();
+		new JbossJarCreator(theJar, classes).addToJar();
+		new JbossTestJarCreator(theJar, testclasses).addToJar();
 	}
 
-	protected static void deploy() throws DeploymentException {
+	protected void deploy() throws DeploymentException {
 		// This is required to make java 1.6 work.
 		setVMFieldValue("defaultAllowArraySyntax", Boolean.TRUE);
 		setVMFieldValue("allowArraySyntax", Boolean.TRUE);
@@ -58,21 +66,32 @@ public abstract class AbstractJbossEmbeddedTest {
 		}
 
 		// Deploy jar file to the embedded JBoss server
-		try {
-			Bootstrap.getInstance().deploy(jar);
-		}
-		catch (DeploymentException e) {
-			throw new RuntimeException("Unable to deploy", e);
+		// The while loop is a workaround for a bug, which I believe might
+		// be a result of delay when undeploying, but Thread.wait(...) does
+		// not seem to help, so it might be something else. failedCount of
+		// 2 seems to be the magic number:) The workaround to avoid massive
+		// amounts of noise in the logs, is in src/test/bootstrap/log4j.xml.
+		int failedCount = 0;
+		while (true) {
+			try {
+				Bootstrap.getInstance().deploy(jar);
+			} catch (DeploymentException e) {
+				if (failedCount == 2) {
+					throw new RuntimeException("Unable to deploy", e);
+				} else {
+					failedCount ++;
+					continue;
+				}
+			}
+			break;
 		}
 	}
 
-	protected static void undeploy(){
+	protected void undeploy() {
 		try {
 			Bootstrap.getInstance().undeploy(jar);
 		} catch (DeploymentException e) {
 			throw new RuntimeException("Unable to undeploy", e);
 		}
-//		AssembledContextFactory.getInstance().remove(jar);
-//		Bootstrap.getInstance().shutdown();
 	}
 }

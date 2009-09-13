@@ -7,7 +7,7 @@
     <version>0.1</version>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>jboss-embedded</artifactId>
-    
+
     <properties>
         <jboss.version>beta3.SP11</jboss.version>
     </properties>
@@ -53,23 +53,50 @@
             <version>${jboss.version}</version>
         </dependency>
 
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.5</version>
-			<scope>test</scope>
-		</dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.5</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
-				</configuration>
-			</plugin>
+    <build>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+            <!--
+            from documentation:
+            wWarning: Do not filter files with binary content like images!
+            This will most likely result in corrupt output. If you have both
+            text files and binary files as resources, you need to declare two
+            mutually exclusive resource sets. The first resource set defines
+            the files to be filtered and the other resource set defines the
+            files to copy unaltered as illustrated below:
+            -->
+            <testResource>
+                <directory>src/test/bootstrap</directory>
+                <filtering>false</filtering>
+            </testResource>
+            <testResource>
+                <directory>src/test/bootstrap</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </testResource>
+        </testResources>
+
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>

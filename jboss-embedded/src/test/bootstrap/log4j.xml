@@ -25,6 +25,18 @@
         <priority value="ERROR"/>
     </category>
 
+
+    <!-- These two are pushing out error messages because of the "bug"
+    described in deploy() in AbstractJbossEmbeddedTest.
+    As long as the workaround works, there is no reason to show this output,
+    and the error ends up as a RuntimeException in any case. -->
+    <category name="org.jboss.kernel.plugins.dependency.AbstractKernelController">
+        <priority value="FATAL"/>
+    </category>
+    <category name="org.jboss.ejb3.deployers.Ejb3Deployer">
+        <priority value="ERROR"/>
+    </category>
+
     <!-- ############### Hibernate logging ################# -->
 
     <category name="org.hibernate">
