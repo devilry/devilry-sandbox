@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <groupId>org.devilry</groupId>
+    <version>0.1</version>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>jboss-embedded</artifactId>
+    
+    <properties>
+        <jboss.version>beta3.SP11</jboss.version>
+    </properties>
+
+    <repositories>
+        <repository>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+                <checksumPolicy>warn</checksumPolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+                <updatePolicy>never</updatePolicy>
+                <checksumPolicy>fail</checksumPolicy>
+            </snapshots>
+            <id>jboss</id>
+            <name>JBoss Repository</name>
+            <url>http://repository.jboss.com/maven2</url>
+            <layout>default</layout>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.jboss.embedded</groupId>
+            <artifactId>jboss-embedded-all</artifactId>
+            <version>${jboss.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.embedded</groupId>
+            <artifactId>jboss-embedded</artifactId>
+            <version>${jboss.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.embedded</groupId>
+            <artifactId>thirdparty-all</artifactId>
+            <version>${jboss.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.embedded</groupId>
+            <artifactId>hibernate-all</artifactId>
+            <version>${jboss.version}</version>
+        </dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.5</version>
+			<scope>test</scope>
+		</dependency>
+    </dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+        </plugins>
+    </build>
+</project>
