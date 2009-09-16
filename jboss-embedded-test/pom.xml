@@ -6,7 +6,7 @@
     <groupId>org.devilry</groupId>
     <version>0.1</version>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>jboss-embedded</artifactId>
+    <artifactId>jboss-embedded-test</artifactId>
 
     <packaging>jar</packaging>
 

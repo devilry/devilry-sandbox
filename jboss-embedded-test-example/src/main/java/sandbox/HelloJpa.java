@@ -6,7 +6,7 @@ import javax.persistence.PersistenceContext;
 
 @Stateless
 public class HelloJpa implements HelloJpaRemote, HelloJpaLocal {
-	@PersistenceContext(unitName = "DevilryCore")
+	@PersistenceContext
 	protected EntityManager em;
 
 	public String helloWorld() {
