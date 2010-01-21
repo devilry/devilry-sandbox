@@ -16,11 +16,12 @@
 		<module>spring</module>
 		<module>servlets</module>
 		<module>testng</module>
-        <module>maven-glassfishtools-plugin</module>
-        <module>jboss-embedded-test</module>
-        <module>jboss-embedded-test-example</module>
-    </modules>
-	
+		<module>maven-glassfishtools-plugin</module>
+		<module>jboss-embedded-test</module>
+		<module>jboss-embedded-test-example</module>
+		<module>simple-javaeeapp</module>
+	</modules>
+
 
 	<dependencies>
 		<dependency>
@@ -31,7 +32,7 @@
 			<classifier>jdk15</classifier>
 		</dependency>
 	</dependencies>
-	
+
 	<build>
 		<plugins>
 			<plugin>

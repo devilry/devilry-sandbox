@@ -17,3 +17,4 @@ nbactions.xml
 .classpath
 .project
 .settings/
+*.pyc
