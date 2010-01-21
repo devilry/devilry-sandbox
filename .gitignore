@@ -18,3 +18,4 @@ nbactions.xml
 .project
 .settings/
 *.pyc
+*.sqlite3
