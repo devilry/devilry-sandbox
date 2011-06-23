@@ -1,0 +1,20 @@
+[
+  {
+    "pk": 1, 
+    "model": "reststuff.user", 
+    "fields": {
+      "last": "user", 
+      "email": "test@example.com", 
+      "first": "test"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "reststuff.user", 
+    "fields": {
+      "last": "man", 
+      "email": "super@example.com", 
+      "first": "super"
+    }
+  }
+]
