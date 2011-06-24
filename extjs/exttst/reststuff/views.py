@@ -25,6 +25,18 @@ def valid_user(f):
     return wrapper
 
 
+
+class JsonSuccessResponse(HttpResponse):
+    def __init__(self, data, message):
+        response = dict(
+                success = True,
+                message = message,
+                data = data)
+        super(JsonSuccessResponse, self).__init__(
+                json.dumps(response, indent=2),
+                content_type='application/json')
+
+
 class UserView(View):
     #@valid_user
     #def get(self, request, user):
@@ -34,26 +46,28 @@ class UserView(View):
     def get(self, request, username=None):
         users = [dict(id=user.id, first=user.first, last=user.last, email=user.email) \
                 for user in User.objects.all()]
-        return HttpResponse(json.dumps(users, indent=2), content_type='application/json')
+        data = dict(success=True, message='Loaded data', data=users)
+        return JsonSuccessResponse(users, 'Loaded users')
 
     def post(self, request, username=None):
         """ Create """
         data = json.loads(request.raw_post_data)
         userform = UserForm(data)
         userform.save()
-        return HttpResponse(json.dumps(dict(success=True)), content_type='application/json')
+        return JsonSuccessResponse(data, 'Created user {0}'.format(userform.instance.id))
 
     @valid_user
     def put(self, request, user):
         data = json.loads(request.raw_post_data)
         userform = UserForm(data, instance=user)
         userform.save()
-        return HttpResponse(json.dumps(dict(success=True)), content_type='application/json')
+        return JsonSuccessResponse(data, 'Updated user {0}'.format(user.id))
 
     @valid_user
     def delete(self, request, user):
         user.delete()
         return HttpResponse(json.dumps(dict(success=True)), content_type='application/json')
+        return JsonSuccessResponse([], 'Deleted user {0}'.format(user.id))
 
 
 

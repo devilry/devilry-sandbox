@@ -41,6 +41,7 @@ Ext.onReady(function(){
         },
         listeners: {
             write: function(store, operation){
+                console.log(operation.getRecords());
                 var record = operation.getRecords()[0],
                     name = Ext.String.capitalize(operation.action),
                     verb;
@@ -52,8 +53,8 @@ Ext.onReady(function(){
                 } else {
                     verb = name + 'd';
                 }
-                Ext.example.msg(name, Ext.String.format("{0} user: {1}", verb, record.getId()));
-                
+                var msg = Ext.String.format("{0} user: {1}", verb, record.getId());
+                console.log(msg);
             }
         }
     });

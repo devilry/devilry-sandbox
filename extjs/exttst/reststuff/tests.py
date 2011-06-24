@@ -13,7 +13,7 @@ class UserViewTest(TestCase):
                 content_type='application/json')
         self.assertEqual(result.status_code, 200)
         resultdata = json.loads(result.content)
-        self.assertEqual(resultdata, dict(success=True))
+        self.assertTrue(resultdata['success'])
 
     def test_put(self):
         client = Client()
