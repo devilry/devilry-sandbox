@@ -136,18 +136,11 @@ Ext.onReady(function(){
 
 
 
-
-
-
-
-
+    /* Override the method that is used to submit forms. */
     Ext.override(Ext.form.action.Submit, {
         run: function() {
-            //console.log('Hello world');
-            //console.log(this);
-            //console.log(this.form.getValues());
             var values = this.form.getValues();
-            var user = Ext.ModelManager.create(values, 'Person');
+            var user = Ext.ModelManager.create(values, this.form.model);
             user.save({
                 success: this.onSuccess,
                 failure: this.onFailure,
@@ -166,6 +159,7 @@ Ext.onReady(function(){
         renderTo: 'form-ct',
         bodyPadding: 5,
         width: 350,
+        model: 'Person',
 
         // The form will submit an AJAX request to this URL when submitted
         //url: 'user/',
