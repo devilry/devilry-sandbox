@@ -62,7 +62,7 @@ Ext.onReady(function(){
     var rowEditing = Ext.create('Ext.grid.plugin.RowEditing');
     
     var grid = Ext.create('Ext.grid.Panel', {
-        renderTo: document.body,
+        renderTo: 'table-ct',
         plugins: [rowEditing],
         width: 400,
         height: 300,
