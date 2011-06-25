@@ -26,14 +26,27 @@ def valid_user(f):
 
 
 
-class JsonSuccessResponse(HttpResponse):
+class JsonResponse(HttpResponse):
+    def __init__(self, responseData):
+        super(JsonResponse, self).__init__(
+                json.dumps(responseData, indent=2),
+                content_type='application/json')
+
+
+class JsonSuccessResponse(JsonResponse):
     def __init__(self, data):
-        response = dict(
+        responseData = dict(
                 success = True,
                 data = data)
-        super(JsonSuccessResponse, self).__init__(
-                json.dumps(response, indent=2),
-                content_type='application/json')
+        super(JsonSuccessResponse, self).__init__(responseData)
+
+class JsonBadRequestResponse(JsonResponse):
+    status_code = 400
+    def __init__(self, data):
+        responseData = dict(
+                success = False,
+                data = data)
+        super(JsonBadRequestResponse, self).__init__(responseData)
 
 
 class UserView(View):
@@ -52,8 +65,11 @@ class UserView(View):
         """ Create """
         data = json.loads(request.raw_post_data)
         userform = UserForm(data)
-        user = userform.save()
-        return JsonSuccessResponse(data)
+        try:
+            user = userform.save()
+            return JsonSuccessResponse(data)
+        except ValueError, e:
+            return JsonBadRequestResponse(dict(hello="world"))
 
     @valid_user
     def put(self, request, user):
