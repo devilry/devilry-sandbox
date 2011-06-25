@@ -59,10 +59,12 @@ class UserView(View):
         data = dict(success=True, message='Loaded data', data=users)
         return SuccessResponse(request, users)
 
-    def post(self, request, username=None):
-        """ Create """
+
+
+    def _post_or_put(self, instance=None):
+        request = self.request
         data = json.loads(request.raw_post_data)
-        userform = UserForm(data)
+        userform = UserForm(data, instance=instance)
         if userform.is_valid():
             user = userform.save()
             return SuccessResponse(request, data)
@@ -73,12 +75,13 @@ class UserView(View):
             # can use errors as field=msg pairs, we can just JSON serialize userform.errors.
             return BadRequestResponse(request, userform.errors)
 
+    def post(self, request, username=None):
+        """ Create """
+        return self._post_or_put()
+
     @valid_user
     def put(self, request, user):
-        data = json.loads(request.raw_post_data)
-        userform = UserForm(data, instance=user)
-        userform.save()
-        return SuccessResponse(request, data)
+        return self._post_or_put(user)
 
     @valid_user
     def delete(self, request, user):
