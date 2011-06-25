@@ -45,10 +45,7 @@ class BadRequestResponse(Response):
     def __init__(self, request, data):
         responseData = dict(
                 success = False,
-                errors = [
-                          dict(id='email', msg='Invalid email'),
-                          dict(id='first', msg='Invalid first name')
-                ],
+                errors = dict(email='Invalid email', first='Invalid first name'),
                 data = data)
         super(BadRequestResponse, self).__init__(request, responseData, status=400)
 
