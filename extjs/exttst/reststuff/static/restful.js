@@ -55,7 +55,6 @@ Ext.onReady(function(){
                 } else {
                     verb = name + 'd';
                 }
-                //console.log(record);
                 var msg = Ext.String.format("{0} user: {1}", verb, record.getId());
                 console.log(msg);
             }
@@ -185,7 +184,6 @@ Ext.onReady(function(){
      * */
     Ext.override(Ext.data.proxy.Rest, {
         setException: function(operation, response){
-            console.log("Exception");
             operation.response = response;
             operation.responseText = response.responseText;
             operation.responseData = Ext.JSON.decode(operation.responseText); // May want to use a Reader

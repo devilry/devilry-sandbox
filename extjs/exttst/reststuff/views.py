@@ -28,8 +28,6 @@ def valid_user(f):
 
 class Response(HttpResponse):
     def __init__(self, request, responseData, status):
-        accept = request.META.get('Accept', 'application/json')
-        print accept
         super(Response, self).__init__(
                 json.dumps(responseData, indent=2),
                 content_type='application/json', status=status)
@@ -42,11 +40,10 @@ class SuccessResponse(Response):
         super(SuccessResponse, self).__init__(request, responseData, status=200)
 
 class BadRequestResponse(Response):
-    def __init__(self, request, data):
+    def __init__(self, request, errors):
         responseData = dict(
                 success = False,
-                errors = dict(email='Invalid email', first='Invalid first name'),
-                data = data)
+                errors = errors)
         super(BadRequestResponse, self).__init__(request, responseData, status=400)
 
 
@@ -66,11 +63,15 @@ class UserView(View):
         """ Create """
         data = json.loads(request.raw_post_data)
         userform = UserForm(data)
-        try:
+        if userform.is_valid():
             user = userform.save()
             return SuccessResponse(request, data)
-        except ValueError, e:
-            return BadRequestResponse(request, dict(hello="world"))
+        else:
+            # userform.errors is a django.forms.util.ErrorDict, which is a thin
+            # wrapper around dict (it only adds a couple of methods, and
+            # overrides __unicode__ and __str__). Since Ext.form.Basic.mastkInvalid
+            # can use errors as field=msg pairs, we can just JSON serialize userform.errors.
+            return BadRequestResponse(request, userform.errors)
 
     @valid_user
     def put(self, request, user):
