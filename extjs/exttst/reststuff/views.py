@@ -26,27 +26,31 @@ def valid_user(f):
 
 
 
-class JsonResponse(HttpResponse):
-    def __init__(self, responseData):
-        super(JsonResponse, self).__init__(
+class Response(HttpResponse):
+    def __init__(self, request, responseData, status):
+        accept = request.META.get('Accept', 'application/json')
+        print accept
+        super(Response, self).__init__(
                 json.dumps(responseData, indent=2),
-                content_type='application/json')
+                content_type='application/json', status=status)
 
-
-class JsonSuccessResponse(JsonResponse):
-    def __init__(self, data):
+class SuccessResponse(Response):
+    def __init__(self, request, data):
         responseData = dict(
                 success = True,
                 data = data)
-        super(JsonSuccessResponse, self).__init__(responseData)
+        super(SuccessResponse, self).__init__(request, responseData, status=200)
 
-class JsonBadRequestResponse(JsonResponse):
-    status_code = 400
-    def __init__(self, data):
+class BadRequestResponse(Response):
+    def __init__(self, request, data):
         responseData = dict(
                 success = False,
+                errors = [
+                          dict(id='email', msg='Invalid email'),
+                          dict(id='first', msg='Invalid first name')
+                ],
                 data = data)
-        super(JsonBadRequestResponse, self).__init__(responseData)
+        super(BadRequestResponse, self).__init__(request, responseData, status=400)
 
 
 class UserView(View):
@@ -59,7 +63,7 @@ class UserView(View):
         users = [dict(id=user.id, first=user.first, last=user.last, email=user.email) \
                 for user in User.objects.all()]
         data = dict(success=True, message='Loaded data', data=users)
-        return JsonSuccessResponse(users)
+        return SuccessResponse(request, users)
 
     def post(self, request, username=None):
         """ Create """
@@ -67,22 +71,21 @@ class UserView(View):
         userform = UserForm(data)
         try:
             user = userform.save()
-            return JsonSuccessResponse(data)
+            return SuccessResponse(request, data)
         except ValueError, e:
-            return JsonBadRequestResponse(dict(hello="world"))
+            return BadRequestResponse(request, dict(hello="world"))
 
     @valid_user
     def put(self, request, user):
         data = json.loads(request.raw_post_data)
         userform = UserForm(data, instance=user)
         userform.save()
-        return JsonSuccessResponse(data)
+        return SuccessResponse(request, data)
 
     @valid_user
     def delete(self, request, user):
         user.delete()
-        return HttpResponse(json.dumps(dict(success=True)), content_type='application/json')
-        return JsonSuccessResponse(data=[])
+        return SuccessResponse(request, data=[])
 
 
 

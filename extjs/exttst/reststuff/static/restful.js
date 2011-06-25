@@ -36,6 +36,11 @@ Ext.define('Person', {
     }
 });
 
+Ext.define('FieldError', {
+    extend: 'Ext.data.Model',
+    fields: ['id', 'msg']
+});
+
 Ext.onReady(function(){
 
     var store = Ext.create('Ext.data.Store', {
@@ -146,27 +151,72 @@ Ext.onReady(function(){
                 success: this.onSuccess,
                 failure: this.onFailure,
                 scope: this,
+                afterRequest: this.afterReq,
                 timeout: (this.timeout * 1000) || (this.form.timeout * 1000),
             });
         },
 
         onSuccess: function(record, operation) {
+            console.log("Success");
             this.record = record;
             this.operation = operation;
-            this.form.afterAction(this, true);
+            var response = operation.response;
+
+            var form = this.form,
+                success = true,
+                result = this.processResponse(response);
+            if (result !== true && !result.success) {
+                if (result.errors) {
+                    form.markInvalid(result.errors);
+                }
+                this.failureType = Ext.form.action.Action.SERVER_INVALID;
+                success = false;
+            }
+            form.afterAction(this, success);
         },
 
         onFailure: function(record, operation){
+            console.log("Failure");
             this.record = record; // Always null?
             this.operation = operation;
+            this.response = operation.response;
+
+            this.result = this.handleResponse(this.response);
+
             if(operation.error.status === 0) {
                 this.failureType = Ext.form.action.Action.CONNECT_FAILURE;
-            } else if(operation.error.status >= 400) {
+            } else if(operation.error.status >= 400 && operation.error.status < 500) {
                 this.failureType = Ext.form.action.Action.SERVER_INVALID;
             } else {
                 this.failureType = Ext.form.action.Action.LOAD_FAILURE;
             }
             this.form.afterAction(this, false);
+        },
+
+        handleResponse: function(response) {
+            console.log('handleResponse');
+            var form = this.form,
+                errorReader = form.errorReader,
+                rs, errors, i, len, records;
+            if (errorReader) {
+                console.log('errorReader');
+                rs = errorReader.read(response);
+                records = rs.records;
+                errors = [];
+                if (records) {
+                    for(i = 0, len = records.length; i < len; i++) {
+                        errors[i] = records[i].data;
+                    }
+                }
+                if (errors.length < 1) {
+                    errors = null;
+                }
+                return {
+                    success : rs.success,
+                    errors : errors
+                };
+            }
+            return Ext.decode(response.responseText);
         }
     });
 
@@ -177,15 +227,15 @@ Ext.onReady(function(){
      * (http://www.sencha.com/forum/showthread.php?135143-RESTful-Model-How-to-indicate-that-the-PUT-operation-failed&highlight=store+failure)
      *
      * However how do we get this into the form when we do not have any link to the form?
-     *      - We send it as a option to the save/delete methods in the model.
-     *      - This works because all options given to these methods are merged into the operation forwarded to setException
+     *      - We add the response and the the decoded responsedata to the
+     *        operation object, which is available to onFailure in Submit.
      * */
     Ext.override(Ext.data.proxy.Rest, {
         setException: function(operation, response){
-            var responseData = Ext.JSON.decode(response.responseText);
-            console.log(operation);
-            console.log(responseData);
-            console.log(operation.form);
+            console.log("Exception");
+            operation.response = response;
+            operation.responseText = response.responseText;
+            operation.responseData = Ext.JSON.decode(operation.responseText);
             operation.setException({
                 status: response.status,
                 statusText: response.statusText
@@ -204,6 +254,13 @@ Ext.onReady(function(){
         bodyPadding: 5,
         width: 350,
         model: 'Person',
+        errorReader: Ext.create('Ext.data.reader.Json', {
+            type : 'json',
+            model: 'FieldError',
+            root: 'errors',
+            successProperty: 'success'
+        }),
+
 
         // The form will submit an AJAX request to this URL when submitted
         //url: 'user/',
@@ -247,15 +304,25 @@ Ext.onReady(function(){
                     method: 'POST',
                     submitEmptyText: true,
                     waitMsg: 'Saving Data...',
+                    success: function(form, action) {
+                        console.log(action.response);
+                        console.log(action.result);
+                    },
                     failure: function(form, action) {
                         // See failureType property in:
                         // http://docs.sencha.com/ext-js/4-0/#/api/Ext.form.action.Submit
                         //console.log('Failure');
                         //console.log(action);
+                        console.log(action.result);
+                        form.markInvalid(action.result.errors);
                         if (action.failureType === Ext.form.action.Action.CONNECT_FAILURE) {
                             Ext.Msg.alert('Error', 'Connection failed');
                         } else if (action.failureType === Ext.form.action.Action.SERVER_INVALID) {
-                            Ext.Msg.alert('Invalid', action.operation.error.statusText);
+                            Ext.Msg.alert('Error', action.operation.error.statusText);
+                        } else {
+                            Ext.Msg.alert('Server ERROR', Ext.String.format("{0}: {1}",
+                                action.operation.error.status,
+                                action.operation.error.statusText));
                         }
                     }
                 });
