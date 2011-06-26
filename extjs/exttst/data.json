@@ -5,7 +5,8 @@
     "fields": {
       "last": "user", 
       "email": "test@example.com", 
-      "first": "test"
+      "first": "test",
+      "score": 2
     }
   }, 
   {
@@ -14,7 +15,8 @@
     "fields": {
       "last": "man", 
       "email": "super@example.com", 
-      "first": "super"
+      "first": "super",
+      "score": 5
     }
   }
 ]

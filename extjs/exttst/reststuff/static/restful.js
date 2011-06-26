@@ -2,11 +2,10 @@ Ext.require(['Ext.data.*', 'Ext.grid.*']);
 
 Ext.define('Person', {
     extend: 'Ext.data.Model',
-    fields: [{
-        name: 'id',
-        type: 'int',
-        useNull: true
-    }, 'email', 'first', 'last'],
+    fields: [
+        {name: 'id', type: 'int', useNull: true},
+        'email', 'first', 'last',
+        {name: 'score', type: 'int'}],
 
     validations: [{
         type: 'length',
@@ -21,7 +20,6 @@ Ext.define('Person', {
         field: 'last',
         min: 1
     }],
-
 
     proxy: {
         type: 'rest',
@@ -151,6 +149,10 @@ function formExample() {
             fieldLabel: 'Email',
             name: 'email',
             allowBlank: false
+        },{
+            fieldLabel: 'Score',
+            name: 'score',
+            allowBlank: false
         }],
 
         // Reset and Submit buttons
@@ -258,6 +260,14 @@ function editableTableExample() {
             field: {
                 xtype: 'textfield'
             }
+        }, {
+            text: 'Score',
+            width: 80,
+            sortable: true,
+            dataIndex: 'score',
+            field: {
+                xtype: 'textfield'
+            }
         }],
         dockedItems: [{
             xtype: 'toolbar',
@@ -289,6 +299,16 @@ function editableTableExample() {
 }
 
 
+
+
+function chartExample() {
+    Ext.create('Ext.chart.Chart', {
+       renderTo: 'chart-example',
+       width: 400,
+       height: 300,
+       store: store
+    });
+}
 
 
 

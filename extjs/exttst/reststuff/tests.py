@@ -9,7 +9,7 @@ class UserViewTest(TestCase):
     def test_post(self):
         client = Client()
         result = client.post(reverse('reststuff-user'),
-                json.dumps(dict(first='Super', last='Man', email="e@mail.com")),
+                json.dumps(dict(first='Super', last='Man', email="e@mail.com", score=10)),
                 content_type='application/json')
         self.assertEqual(result.status_code, 200)
         resultdata = json.loads(result.content)
@@ -17,10 +17,10 @@ class UserViewTest(TestCase):
 
     def test_put(self):
         client = Client()
-        superman = User(email="supr@man.com", first="S", last="M")
+        superman = User(email="supr@man.com", first="S", last="M", score=5)
         superman.save()
         result = client.put(reverse('reststuff-user', args=[superman.id]),
-                json.dumps(dict(first='Super', last='Man', email="e@mail.com")),
+                json.dumps(dict(first='Super', last='Man', email="e@mail.com", score=3)),
                 content_type='application/json')
         self.assertEqual(result.status_code, 200)
         resultdata = json.loads(result.content)
@@ -33,7 +33,7 @@ class UserViewTest(TestCase):
         with self.assertRaises(User.DoesNotExist):
             User.objects.get(id=invalid_id)
         result = client.put(reverse('reststuff-user', args=[invalid_id]),
-                json.dumps(dict(first='Super', last='Man', email="e@mail.com")),
+                json.dumps(dict(first='Super', last='Man', email="e@mail.com", score=2)),
                 content_type='application/json')
         self.assertEqual(result.status_code, 404)
         resultdata = json.loads(result.content)

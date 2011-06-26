@@ -10,7 +10,7 @@ from models import User
 class UserForm(ModelForm):
     class Meta:
         model = User
-        fields = ('email', 'first', 'last')
+        fields = ('email', 'first', 'last', 'score')
 
 
 def valid_user(f):
@@ -54,7 +54,7 @@ class UserView(View):
         #return HttpResponse(json.dumps(data))
 
     def get(self, request, username=None):
-        users = [dict(id=user.id, first=user.first, last=user.last, email=user.email) \
+        users = [dict(id=user.id, first=user.first, last=user.last, email=user.email, score=user.score) \
                 for user in User.objects.all()]
         data = dict(success=True, message='Loaded data', data=users)
         return SuccessResponse(request, users)
@@ -90,6 +90,6 @@ class UserView(View):
 
 
 
-class UserTable(View):
+class RestExamples(View):
     def get(self, request):
-        return render(request, 'usertable.html')
+        return render(request, 'restexamples.html')
