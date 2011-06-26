@@ -121,7 +121,7 @@ function formExample() {
      **************************/
     Ext.create('Ext.form.Panel', {
         title: 'Simple Form',
-        renderTo: 'form-ct',
+        renderTo: 'form-example',
         bodyPadding: 5,
         width: 350,
         model: 'Person',
@@ -223,7 +223,7 @@ function editableTableExample() {
     });
     
     var grid = Ext.create('Ext.grid.Panel', {
-        renderTo: 'table-ct',
+        renderTo: 'table-example',
         plugins: [rowEditing],
         width: 400,
         height: 300,
@@ -301,12 +301,47 @@ function editableTableExample() {
 
 
 
+// See http://docs.sencha.com/ext-js/4-0/#/api/Ext.chart.Chart
 function chartExample() {
+    var store = Ext.create('Ext.data.Store', {
+        autoLoad: true,
+        //autoSync: true,
+        model: 'Person'
+    });
+
     Ext.create('Ext.chart.Chart', {
        renderTo: 'chart-example',
        width: 400,
        height: 300,
-       store: store
+       store: store,
+
+
+       // Axes only define the rectangles around the chart (try to comment them out, and the series will still draw the bars)
+       axes: [
+           {
+               title: 'User',
+               type: 'Category',
+               position: 'left',
+               fields: ['first'],
+           },
+           {
+               title: 'Score',
+               type: 'Numeric',
+               position: 'bottom',
+               minimum: 0, // If this is not defined, the lowes value we be minimum.
+               fields: ['score']
+           }
+       ],
+
+       // Series define what data to draw in the x and y axis
+       series: [
+           {
+               type: 'bar',
+               axis: 'bottom',
+               xField: 'username',
+               yField: ['score']
+           }
+       ]
     });
 }
 
@@ -315,4 +350,5 @@ function chartExample() {
 Ext.onReady(function(){
     formExample();
     editableTableExample();
+    chartExample();
 });
