@@ -3,20 +3,40 @@
     "pk": 1, 
     "model": "reststuff.user", 
     "fields": {
+      "score": 67, 
       "last": "user", 
       "email": "test@example.com", 
-      "first": "test",
-      "score": 2
+      "first": "test"
     }
   }, 
   {
     "pk": 2, 
     "model": "reststuff.user", 
     "fields": {
-      "last": "man", 
+      "score": 200, 
+      "last": "Man", 
       "email": "super@example.com", 
-      "first": "super",
-      "score": 5
+      "first": "Super"
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "reststuff.user", 
+    "fields": {
+      "score": 40, 
+      "last": "Person", 
+      "email": "spider@person.com", 
+      "first": "Spider"
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "reststuff.user", 
+    "fields": {
+      "score": 80, 
+      "last": "b", 
+      "email": "c@e.co", 
+      "first": "X"
     }
   }
 ]

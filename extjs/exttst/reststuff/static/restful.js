@@ -41,22 +41,27 @@ Ext.define('Person', {
 
 
 
-
-
-
-
 /* Override the method that is used to submit forms. */
 Ext.override(Ext.form.action.Submit, {
     run: function() {
-        var values = this.form.getValues();
-        var obj = Ext.ModelManager.create(values, this.form.model);
-        obj.save({
+        var record = this.form.getRecord();
+        console.log(record);
+        if(record) { // Update the current record with data from form if editing existing (previously loaded with loadRecord())
+            this.form.updateRecord(record);
+        } else { // Create new record
+            record = Ext.ModelManager.create(this.form.getValues(), this.form.model);
+        }
+
+        // save() automatically uses the correct REST method (post for create and put for update).
+        record = record.save({
             form: this.form,
             success: this.onSuccess,
             failure: this.onFailure,
             scope: this,
             timeout: (this.timeout * 1000) || (this.form.timeout * 1000),
         });
+
+        this.form.reset();
     },
 
     onSuccess: function(record, operation) {
@@ -119,7 +124,7 @@ function formExample() {
     /***************************
      * FORM
      **************************/
-    Ext.create('Ext.form.Panel', {
+    var form = Ext.create('Ext.form.Panel', {
         title: 'Simple Form',
         renderTo: 'form-example',
         bodyPadding: 5,
@@ -180,44 +185,14 @@ function formExample() {
             }
         }]
     });
+
+    return form;
 }
 
 
 
 
-function editableTableExample() {
-    var store = Ext.create('Ext.data.Store', {
-        autoLoad: true,
-        autoSync: true,
-        model: 'Person',
-        listeners: {
-            write: function(store, operation){
-                var record = operation.getRecords()[0],
-                    name = Ext.String.capitalize(operation.action),
-                    verb;
-                    
-                if (name == 'Destroy') {
-                    record = operation.records[0];
-                    verb = 'Destroyed';
-                } else {
-                    verb = name + 'd';
-                }
-                var msg = Ext.String.format("{0} user: {1}", verb, record.getId());
-                console.log(msg);
-            },
-
-            //exception: function(proxy, response, operation) {
-                //console.log('exception');
-                //Ext.MessageBox.show({
-                    //title: 'Error',
-                    //msg: operation.getError(),
-                    //icon: Ext.MessageBox.ERROR,
-                    //buttons: Ext.Msg.OK
-                //});
-            //}
-        }
-    });
-    
+function editableTableExample(store) {
     var rowEditing = Ext.create('Ext.grid.plugin.RowEditing', {
         errorSummary: true
     });
@@ -294,27 +269,28 @@ function editableTableExample() {
         }]
     });
     grid.getSelectionModel().on('selectionchange', function(selModel, selections){
-        grid.down('#delete').setDisabled(selections.length === 0);
+        grid.down('#delete').setDisabled(selections.length === 0); // Disable delete if no items
     });
+
+    return grid;
 }
 
 
 
 
 // See http://docs.sencha.com/ext-js/4-0/#/api/Ext.chart.Chart
-function chartExample() {
-    var store = Ext.create('Ext.data.Store', {
-        autoLoad: true,
-        //autoSync: true,
-        model: 'Person'
-    });
+function chartExample(store) {
+    //var store = Ext.create('Ext.data.Store', {
+        //autoLoad: true,
+        ////autoSync: true,
+        //model: 'Person'
+    //});
 
-    Ext.create('Ext.chart.Chart', {
+    return Ext.create('Ext.chart.Chart', {
        renderTo: 'chart-example',
        width: 400,
        height: 300,
        store: store,
-
 
        // Axes only define the rectangles around the chart (try to comment them out, and the series will still draw the bars)
        axes: [
@@ -339,16 +315,90 @@ function chartExample() {
                type: 'bar',
                axis: 'bottom',
                xField: 'username',
-               yField: ['score']
+               yField: ['score'],
+
+               // Extra parameters to make the series prettier
+               highlight: true, // highlight on hover
+               tips: { // Tooltips on hover
+                   trackMouse: true,
+                   width: 140,
+                   height: 28,
+                   renderer: function(storeItem, item) {
+                       this.setTitle(Ext.String.format('{0} {1} <{2}>: {3} points',
+                           storeItem.get('first'), storeItem.get('last'),
+                           storeItem.get('email'), storeItem.get('score')));
+                   }
+               },
+               label: { // Label inside each bar
+                   display: 'insideEnd',
+                   field: 'score',
+                   renderer: Ext.util.Format.numberRenderer('0'),
+                   orientation: 'horizontal',
+                   color: '#333',
+                   'text-anchor': 'middle'
+               },
            }
-       ]
+       ],
+
+       // Extra parameters to make the chart prettier
+       animate: true
     });
 }
 
 
 
+
 Ext.onReady(function(){
-    formExample();
-    editableTableExample();
-    chartExample();
+    var store = Ext.create('Ext.data.Store', {
+        autoLoad: true,
+        autoSync: true,
+        model: 'Person',
+        listeners: {
+            write: function(store, operation){
+                var record = operation.getRecords()[0],
+                    name = Ext.String.capitalize(operation.action),
+                    verb;
+                    
+                if (name == 'Destroy') {
+                    record = operation.records[0];
+                    verb = 'Destroyed';
+                } else {
+                    verb = name + 'd';
+                }
+                var msg = Ext.String.format("{0} user: {1}", verb, record.getId());
+                console.log(msg);
+            },
+
+            //exception: function(proxy, response, operation) {
+                //console.log('exception');
+                //Ext.MessageBox.show({
+                    //title: 'Error',
+                    //msg: operation.getError(),
+                    //icon: Ext.MessageBox.ERROR,
+                    //buttons: Ext.Msg.OK
+                //});
+            //}
+        }
+    });
+
+
+    var form = formExample();
+    var editableTable = editableTableExample(store);
+    var chart = chartExample(store);
+
+
+    editableTable.on('selectionchange', function(selModel, selections){
+        if(selections[0]) {
+            form.loadRecord(selections[0]);
+        }
+    });
+
+    form.on('actioncomplete', function(formobj, action, options) {
+        //console.log(editableTable);
+        //console.log(action);
+        store.sync();
+        //console.log(chart);
+        //chart.store.sync();
+        //chart.redraw();
+    });
 });
