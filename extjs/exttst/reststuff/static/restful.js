@@ -246,6 +246,18 @@ function editableTableExample(store) {
         dockedItems: [{
             xtype: 'toolbar',
             items: [{
+                xtype: 'textfield',
+                listeners: {
+                    specialkey: function(textfield, e) {
+                        if(e.getKey() == e.ENTER) {
+                            //store.clearFilter(true);
+                            store.filter('first', textfield.getValue());
+                            console.log(textfield.getValue());
+                            console.log(store.filters);
+                        }
+                    }
+                }
+            }, {
                 text: 'Add',
                 iconCls: 'icon-add',
                 handler: function(){
@@ -271,6 +283,18 @@ function editableTableExample(store) {
         grid.down('#delete').setDisabled(selections.length === 0); // Disable delete if no items
     });
 
+
+    //var filterPanel = Ext.create('Ext.panel.Panel', {
+        //renderTo: 'table-example',
+        //bodyPadding: 5,  // Don't want content to crunch against the borders
+        //title: 'Filters',
+        //items: [{
+            //xtype: 'textfield',
+            //fieldLabel: 'Filter'
+        //}, grid]
+    //});
+    
+
     return grid;
 }
 
@@ -279,12 +303,6 @@ function editableTableExample(store) {
 
 // See http://docs.sencha.com/ext-js/4-0/#/api/Ext.chart.Chart
 function chartExample(store) {
-    //var store = Ext.create('Ext.data.Store', {
-        //autoLoad: true,
-        ////autoSync: true,
-        //model: 'Person'
-    //});
-
     return Ext.create('Ext.chart.Chart', {
        renderTo: 'chart-example',
        width: 400,
@@ -362,6 +380,7 @@ Ext.onReady(function(){
         autoLoad: true,
         autoSync: true,
         model: 'Person',
+        remoteFilter: true,
         listeners: {
             write: function(store, operation){
                 var record = operation.getRecords()[0],
@@ -387,7 +406,13 @@ Ext.onReady(function(){
                     //buttons: Ext.Msg.OK
                 //});
             //}
-        }
+        },
+        //filters: [
+            //{
+                //property: 'first',
+                //value   : 'hei'
+            //}
+        //]
     });
 
 
