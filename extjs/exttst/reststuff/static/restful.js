@@ -274,6 +274,7 @@ function editableTableExample(store) {
             xtype: 'devilry-filtermanager',
             dock: 'right',
             padding: 10,
+            width: 200,
             store: store
         }]
     });

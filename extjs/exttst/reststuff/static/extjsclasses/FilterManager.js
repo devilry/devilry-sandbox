@@ -1,4 +1,4 @@
-Ext.require(['devilry.FilterBox']);
+Ext.require(['devilry.FilterBox', 'devilry.FilterSelector']);
 
 Ext.define('devilry.FilterManager', {
     extend: 'Ext.container.Container',
@@ -7,16 +7,7 @@ Ext.define('devilry.FilterManager', {
 
     items: [
         {
-            xtype: 'textfield',
-            emptyText: 'Add filter...',
-            listeners: {
-                specialkey: function(textfield, e) {
-                    if(e.getKey() == e.ENTER) {
-                        this.ownerCt.store.filter('first', textfield.getValue());
-                        textfield.setValue('');
-                    }
-                }
-            }
+            xtype: 'devilry-filterselector'
         }, {
             xtype: 'devilry-filterbox'
         }, {

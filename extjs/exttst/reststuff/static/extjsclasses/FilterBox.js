@@ -20,7 +20,7 @@ Ext.define('devilry.FilterBox', {
         // keep the list in sync with the filters
         this.store.filters.on('remove', function(filter, key) {
             Ext.each(me.items.items, function(filterlabel) {
-                if(filterlabel.filter === filter) {
+                if(filterlabel && filterlabel.filter === filter) {
                     me.remove(filterlabel);
                 }
             });
