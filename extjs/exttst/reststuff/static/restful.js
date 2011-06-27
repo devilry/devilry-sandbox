@@ -1,42 +1,16 @@
-Ext.require(['Ext.data.*', 'Ext.grid.*']);
 
-Ext.define('Person', {
-    extend: 'Ext.data.Model',
-    fields: [
-        {name: 'id', type: 'int', useNull: true},
-        'email', 'first', 'last',
-        {name: 'score', type: 'int'}],
-
-    validations: [{
-        type: 'length',
-        field: 'email',
-        min: 1
-    }, {
-        type: 'length',
-        field: 'first',
-        min: 1
-    }, {
-        type: 'length',
-        field: 'last',
-        min: 1
-    }],
-
-    proxy: {
-        type: 'rest',
-        url: 'user/',
-        reader: {
-            type: 'json',
-            root: 'data'
-        },
-        writer: {
-            type: 'json'
-        }
+// Path to the blank image should point to a valid location on your server
+Ext.BLANK_IMAGE_URL = '/static/extjs/resources/themes/images/default/tree/s.gif';
+Ext.Loader.setConfig({
+    enabled:true,
+    paths: {
+        // Enables us to load any ExtJS class in its own file within this dir
+        // (just like in Java) as devilry.path.to.FileName. Example: devily.Person (reststuff/static/extjsclasses/Person.js)
+        'devilry': '/static/extjsclasses'
     }
 });
 
-
-
-
+Ext.require(['Ext.data.*', 'Ext.grid.*', 'devilry.Person', 'devilry.FilterManager']);
 
 
 
@@ -161,7 +135,7 @@ function formExample() {
         renderTo: 'form-example',
         bodyPadding: 5,
         width: 350,
-        model: 'Person',
+        model: 'devilry.Person',
 
         // The form will submit an AJAX request to this URL when submitted
         //url: 'user/',
@@ -283,7 +257,7 @@ function editableTableExample(store) {
                 iconCls: 'icon-add',
                 handler: function(){
                     // empty record
-                    store.insert(0, new Person());
+                    store.insert(0, new devilry.Person());
                     rowEditing.startEdit(0, 0);
                 }
             }, '-', {
@@ -388,7 +362,7 @@ Ext.onReady(function(){
     var store = Ext.create('Ext.data.Store', {
         autoLoad: true,
         autoSync: true,
-        model: 'Person',
+        model: 'devilry.Person',
         remoteFilter: true,
         listeners: {
             write: function(store, operation){
@@ -450,148 +424,7 @@ Ext.onReady(function(){
     });
 
 
-
-    Ext.define('FilterLabel', {
-        extend: 'Ext.container.Container',
-        style: {
-            color: '#FFFFFF',
-            backgroundColor:'#000000',
-            'border-radius': '6px'
-        },
-        padding: 5,
-        margin: 2,
-
-        constructor: function(filterbox, filter) {
-            this.filterbox = filterbox;
-            this.filter = filter;
-            this.labelText = Ext.String.format('{0}: {1}', filter.property, filter.value);
-            this.callParent([{
-                layout: 'hbox'
-            }]);
-
-            var me = this;
-            this.button = Ext.create('Ext.Button', {
-                text: 'x',
-                listeners: {
-                    click: function() {
-                        me.remove();
-                    }
-                }
-            });
-            this.add(this.button);
-
-            this.label = Ext.create('Ext.Component', {
-                html: this.labelText,
-                padding: 5
-            });
-            this.add(this.label);
-
-            return this;
-        },
-
-        remove: function() {
-            this.filterbox.removeFilterLabel(this);
-        }
-    });
-
-    Ext.define('FilterBox', {
-        extend: 'Ext.container.Container',
-
-        constructor: function(store) {
-            this.callParent();
-
-            var me = this;
-            this.store = store;
-
-            // Add event listeners for remove, add and clear to ensure that we
-            // keep the list in sync with the filters
-            this.store.filters.on('remove', function(filter, key) {
-                Ext.each(me.items.items, function(filterlabel) {
-                    if(filterlabel.filter === filter) {
-                        me.remove(filterlabel);
-                    }
-                });
-                me.store.load();
-            });
-
-            this.store.filters.on('add', function(index, filter) {
-                me.addFilter(filter);
-                me.store.load();
-            });
-
-            this.store.filters.on('clear', function() {
-                me.removeAll();
-                me.store.load();
-            });
-
-            this.store.filters.on('replace', function() {
-                me.refresh();
-                me.store.load();
-            });
-
-            this.refresh();
-            return this;
-        },
-
-        /* Refresh from filters */
-        refresh: function() {
-            this.removeAll();
-            var me = this;
-            Ext.each(me.store.filters.items, function(filter, index, allFilters) {
-                me.addFilter(filter);
-            });
-        },
-
-        addFilter: function(filter) {
-            var filterlabel = Ext.create('FilterLabel', this, filter);
-            this.add(filterlabel);
-        },
-
-        removeFilterLabel: function(filterlabel) {
-            this.store.filters.remove(filterlabel.filter);
-        }
-    });
-
-    Ext.define('FilterManger', {
-        extend: 'Ext.container.Container',
-        //renderTo: 'filterbox-example',
-        width: 250,
-
-        constructor: function(store, config) {
-            this.callParent([config]);
-            this.filterbox = Ext.create('FilterBox', store);
-            this.clearAllButton = Ext.create('Ext.Button', {
-                text: 'Clear all filters',
-                listeners: {
-                    click: function() {
-                        store.filters.clear();
-                    }
-                }
-            });
-
-            var me = this;
-            this.addfield = Ext.create('Ext.form.field.Text', {
-                fieldLabel: 'Add filter',
-                width: me.width,
-                listeners: {
-                    specialkey: function(textfield, e) {
-                        if(e.getKey() == e.ENTER) {
-                            store.filter('first', textfield.getValue());
-                            textfield.setValue('');
-                        }
-                    }
-                }
-            });
-
-            this.add(this.addfield);
-            this.add(this.filterbox);
-            this.add(this.clearAllButton);
-            return this;
-        }
-    });
-
-    //var filterbox = Ext.create('FilterBox', store.filters);
-    Ext.create('FilterManger', store, {
+    Ext.create('devilry.FilterManager', store, {
         renderTo: 'filterbox-example'
     });
     store.filter('first', 'pid');
