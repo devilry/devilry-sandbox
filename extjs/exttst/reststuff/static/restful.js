@@ -246,18 +246,6 @@ function editableTableExample(store) {
         dockedItems: [{
             xtype: 'toolbar',
             items: [{
-                xtype: 'textfield',
-                listeners: {
-                    specialkey: function(textfield, e) {
-                        if(e.getKey() == e.ENTER) {
-                            //store.clearFilter(true);
-                            store.filter('first', textfield.getValue());
-                            console.log(textfield.getValue());
-                            console.log(store.filters);
-                        }
-                    }
-                }
-            }, {
                 text: 'Add',
                 iconCls: 'icon-add',
                 handler: function(){
@@ -282,18 +270,6 @@ function editableTableExample(store) {
     grid.getSelectionModel().on('selectionchange', function(selModel, selections){
         grid.down('#delete').setDisabled(selections.length === 0); // Disable delete if no items
     });
-
-
-    //var filterPanel = Ext.create('Ext.panel.Panel', {
-        //renderTo: 'table-example',
-        //bodyPadding: 5,  // Don't want content to crunch against the borders
-        //title: 'Filters',
-        //items: [{
-            //xtype: 'textfield',
-            //fieldLabel: 'Filter'
-        //}, grid]
-    //});
-    
 
     return grid;
 }
@@ -407,12 +383,6 @@ Ext.onReady(function(){
                 //});
             //}
         },
-        //filters: [
-            //{
-                //property: 'first',
-                //value   : 'hei'
-            //}
-        //]
     });
 
 
@@ -445,4 +415,144 @@ Ext.onReady(function(){
         highlightSelection(barSeries, selectedIndex);
         editableTable.resumeEvents();
     });
+
+
+
+    Ext.define('FilterLabel', {
+        extend: 'Ext.container.Container',
+        style: {
+            color: '#FFFFFF',
+            backgroundColor:'#000000',
+            'border-radius': '6px'
+        },
+        padding: 5,
+        margin: 2,
+
+        constructor: function(filterbox, filter) {
+            this.filterbox = filterbox;
+            this.filter = filter;
+            this.labelText = Ext.String.format('{0}: {1}', filter.property, filter.value);
+            this.callParent([{
+                layout: 'hbox'
+            }]);
+
+            var me = this;
+            this.button = Ext.create('Ext.Button', {
+                text: 'x',
+                listeners: {
+                    click: function() {
+                        me.remove();
+                    }
+                }
+            });
+            this.add(this.button);
+
+            this.label = Ext.create('Ext.Component', {
+                html: this.labelText,
+                padding: 5
+            });
+            this.add(this.label);
+
+            return this;
+        },
+
+        remove: function() {
+            this.filterbox.removeFilterLabel(this);
+        }
+    });
+
+    Ext.define('FilterBox', {
+        extend: 'Ext.container.Container',
+
+        constructor: function(filters) {
+            this.callParent();
+
+            var me = this;
+            this.filters = filters;
+
+            // Add event listeners for remove, add and clear to ensure that we
+            // keep the list in sync with the filters
+            this.filters.on('remove', function(filter, key) {
+                Ext.each(me.items.items, function(filterlabel) {
+                    if(filterlabel.filter === filter) {
+                        me.remove(filterlabel);
+                    }
+                });
+            });
+
+            this.filters.on('add', function(index, filter) {
+                me.addFilter(filter);
+            });
+
+            this.filters.on('clear', function() {
+                me.removeAll();
+            });
+
+            this.refresh();
+            return this;
+        },
+
+        /* Refresh from filters */
+        refresh: function() {
+            this.removeAll();
+            var me = this;
+            Ext.each(me.filters.items, function(filter, index, allFilters) {
+                me.addFilter(filter);
+            });
+        },
+
+        addFilter: function(filter) {
+            var filterlabel = Ext.create('FilterLabel', this, filter);
+            this.add(filterlabel);
+        },
+
+        removeFilterLabel: function(filterlabel) {
+            this.filters.remove(filterlabel.filter);
+        }
+    });
+
+    Ext.define('FilterManger', {
+        extend: 'Ext.container.Container',
+        //renderTo: 'filterbox-example',
+        width: 250,
+
+        constructor: function(filters, config) {
+            this.callParent([config]);
+            this.filterbox = Ext.create('FilterBox', filters);
+            this.clearAllButton = Ext.create('Ext.Button', {
+                text: 'Clear all filters',
+                listeners: {
+                    click: function() {
+                        filters.clear();
+                    }
+                }
+            });
+
+            var me = this;
+            this.addfield = Ext.create('Ext.form.field.Text', {
+                fieldLabel: 'Add filter',
+                width: me.width,
+                listeners: {
+                    specialkey: function(textfield, e) {
+                        if(e.getKey() == e.ENTER) {
+                            store.filter('first', textfield.getValue());
+                            textfield.setValue('');
+                        }
+                    }
+                }
+            });
+
+            this.add(this.addfield);
+            this.add(this.filterbox);
+            this.add(this.clearAllButton);
+            return this;
+        }
+    });
+
+    //var filterbox = Ext.create('FilterBox', store.filters);
+    Ext.create('FilterManger', store.filters, {
+        renderTo: 'filterbox-example'
+    });
+    store.filter('first', 'S');
+    store.filter('last', 'Pe');
 });
