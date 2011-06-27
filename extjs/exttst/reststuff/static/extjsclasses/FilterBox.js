@@ -55,7 +55,9 @@ Ext.define('devilry.FilterBox', {
     },
 
     addFilter: function(filter) {
-        var filterlabel = Ext.create('devilry.FilterLabel', this, filter);
+        var filterlabel = Ext.create('devilry.FilterLabel', {
+            filter: filter
+        });
         this.add(filterlabel);
     },
 

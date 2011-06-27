@@ -7,14 +7,10 @@ Ext.define('devilry.FilterLabel', {
     },
     padding: 5,
     margin: 2,
+    layout: 'hbox',
 
-    constructor: function(filterbox, filter) {
-        this.filterbox = filterbox;
-        this.filter = filter;
-        this.labelText = Ext.String.format('{0}: {1}', filter.property, filter.value);
-        this.callParent([{
-            layout: 'hbox'
-        }]);
+    constructor: function(config) {
+        this.callParent([config]);
 
         var me = this;
         this.button = Ext.create('Ext.Button', {
@@ -28,7 +24,7 @@ Ext.define('devilry.FilterLabel', {
         this.add(this.button);
 
         this.label = Ext.create('Ext.Component', {
-            html: this.labelText,
+            html: Ext.String.format('{0}: {1}', this.filter.property, this.filter.value),
             padding: 5
         });
         this.add(this.label);
@@ -37,6 +33,6 @@ Ext.define('devilry.FilterLabel', {
     },
 
     remove: function() {
-        this.filterbox.removeFilterLabel(this);
+        this.ownerCt.removeFilterLabel(this);
     }
 });
