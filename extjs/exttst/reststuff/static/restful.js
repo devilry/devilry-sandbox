@@ -106,8 +106,41 @@ Ext.override(Ext.data.proxy.Rest, {
             statusText: response.statusText
         });
     },
-});
 
+    // We could override buildRequest and send jsonData instead of params.
+    // However this may not be compatible with the GET method specification...?
+    // At least it does not seem to end up in request.raw_post_data in Django.
+    //buildRequest: function(operation) {
+        //var params = Ext.applyIf(operation.params || {}, this.extraParams || {}),
+            //request;
+        
+        ////copy any sorters, filters etc into the params so they can be sent over the wire
+        //params = Ext.applyIf(params, this.getParams(params, operation));
+        
+        //if (operation.id && !params.id) {
+            //params.id = operation.id;
+        //}
+        
+        //request = Ext.create('Ext.data.Request', {
+            ////params   : params,
+            //jsonData: Ext.JSON.encode(params),
+            //action   : operation.action,
+            //records  : operation.records,
+            //operation: operation,
+            //url      : operation.url
+        //});
+        
+        //request.url = this.buildUrl(request);
+        
+        /*
+         * Save the request on the Operation. Operations don't usually care about Request and Response data, but in the
+         * ServerProxy and any of its subclasses we add both request and response as they may be useful for further processing
+         */
+        //operation.request = request;
+        
+        //return request;
+    //}
+})
 
 
 
@@ -382,7 +415,7 @@ Ext.onReady(function(){
                     //buttons: Ext.Msg.OK
                 //});
             //}
-        },
+        }
     });
 
 
@@ -464,28 +497,36 @@ Ext.onReady(function(){
     Ext.define('FilterBox', {
         extend: 'Ext.container.Container',
 
-        constructor: function(filters) {
+        constructor: function(store) {
             this.callParent();
 
             var me = this;
-            this.filters = filters;
+            this.store = store;
 
             // Add event listeners for remove, add and clear to ensure that we
             // keep the list in sync with the filters
-            this.filters.on('remove', function(filter, key) {
+            this.store.filters.on('remove', function(filter, key) {
                 Ext.each(me.items.items, function(filterlabel) {
                     if(filterlabel.filter === filter) {
                         me.remove(filterlabel);
                     }
                 });
+                me.store.load();
             });
 
-            this.filters.on('add', function(index, filter) {
+            this.store.filters.on('add', function(index, filter) {
                 me.addFilter(filter);
+                me.store.load();
             });
 
-            this.filters.on('clear', function() {
+            this.store.filters.on('clear', function() {
                 me.removeAll();
+                me.store.load();
+            });
+
+            this.store.filters.on('replace', function() {
+                me.refresh();
+                me.store.load();
             });
 
             this.refresh();
@@ -496,7 +537,7 @@ Ext.onReady(function(){
         refresh: function() {
             this.removeAll();
             var me = this;
-            Ext.each(me.filters.items, function(filter, index, allFilters) {
+            Ext.each(me.store.filters.items, function(filter, index, allFilters) {
                 me.addFilter(filter);
             });
         },
@@ -507,7 +548,7 @@ Ext.onReady(function(){
         },
 
         removeFilterLabel: function(filterlabel) {
-            this.filters.remove(filterlabel.filter);
+            this.store.filters.remove(filterlabel.filter);
         }
     });
 
@@ -516,14 +557,14 @@ Ext.onReady(function(){
         //renderTo: 'filterbox-example',
         width: 250,
 
-        constructor: function(filters, config) {
+        constructor: function(store, config) {
             this.callParent([config]);
-            this.filterbox = Ext.create('FilterBox', filters);
+            this.filterbox = Ext.create('FilterBox', store);
             this.clearAllButton = Ext.create('Ext.Button', {
                 text: 'Clear all filters',
                 listeners: {
                     click: function() {
-                        filters.clear();
+                        store.filters.clear();
                     }
                 }
             });
@@ -550,9 +591,9 @@ Ext.onReady(function(){
     });
 
     //var filterbox = Ext.create('FilterBox', store.filters);
-    Ext.create('FilterManger', store.filters, {
+    Ext.create('FilterManger', store, {
         renderTo: 'filterbox-example'
     });
-    store.filter('first', 'S');
-    store.filter('last', 'Pe');
+    store.filter('first', 'pid');
+    store.filter('last', 'erson');
 });

@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseNotFound
 from django.utils import simplejson as json
 from django.forms import ModelForm
 from django.shortcuts import render
+from django.db.models import Q
 from models import User
 
 
@@ -54,8 +55,29 @@ class UserView(View):
         #return HttpResponse(json.dumps(data))
 
     def get(self, request, username=None):
+        filters = request.GET.get('filter')
+        #validFilterFields = set()
+        matchedusers = User.objects.all()
+        if filters:
+            filters = json.loads(filters)
+            filterQry = None
+            #print 'Filters:'
+            for filterprop in filters:
+                fieldname = str(filterprop['property'])
+                value = filterprop['value']
+                if not fieldname in UserForm._meta.fields:
+                    return BadRequestResponse(request, dict(filters='Illegal filter property: {0}'.format(fieldname)))
+                #print '    {fieldname}: {value}'.format(fieldname=fieldname, value=value)
+                queryParam = {'{0}__icontains'.format(fieldname): value}
+                q = Q(**queryParam)
+                if filterQry:
+                    filterQry &= q
+                else:
+                    filterQry = q
+            #print filterQry
+            matchedusers = matchedusers.filter(filterQry)
         users = [dict(id=user.id, first=user.first, last=user.last, email=user.email, score=user.score) \
-                for user in User.objects.all()]
+                for user in matchedusers]
         data = dict(success=True, message='Loaded data', data=users)
         return SuccessResponse(request, users)
 
