@@ -216,14 +216,6 @@ function editableTableExample(store) {
             sortable: true,
             dataIndex: 'id'
         }, {
-            text: 'Email',
-            flex: 1,
-            sortable: true,
-            dataIndex: 'email',
-            field: {
-                xtype: 'textfield'
-            }
-        }, {
             header: 'First',
             width: 80,
             sortable: true,
@@ -236,6 +228,14 @@ function editableTableExample(store) {
             width: 80,
             sortable: true,
             dataIndex: 'last',
+            field: {
+                xtype: 'textfield'
+            }
+        }, {
+            text: 'Email',
+            flex: 1,
+            sortable: true,
+            dataIndex: 'email',
             field: {
                 xtype: 'textfield'
             }
@@ -323,8 +323,8 @@ function chartExample(store) {
                // Extra parameters to make the series prettier
                tips: { // Tooltips on hover
                    trackMouse: true,
-                   width: 140,
-                   height: 28,
+                   width: 280,
+                   height: 30,
                    renderer: function(storeItem, item) {
                        this.setTitle(Ext.String.format('{0} {1} <{2}>: {3} points',
                            storeItem.get('first'), storeItem.get('last'),
@@ -432,6 +432,6 @@ Ext.onReady(function(){
         editableTable.resumeEvents();
     });
 
-    store.filter('first', 'pid');
-    store.filter('last', 'erson');
+    store.filter('email', 'duck');
+    store.filter('first', 'D');
 });

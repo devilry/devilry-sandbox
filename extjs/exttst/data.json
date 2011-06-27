@@ -38,5 +38,75 @@
       "email": "c@e.co", 
       "first": "X"
     }
+  },
+  {
+    "pk": 5, 
+    "model": "reststuff.user", 
+    "fields": {
+      "score": 10, 
+      "first": "Donald",
+      "last": "Duck",
+      "email": "donald@duck.com"
+    }
+  }, 
+  {
+    "pk": 6, 
+    "model": "reststuff.user", 
+    "fields": {
+      "score": 15, 
+      "first": "Daisy",
+      "last": "Duck",
+      "email": "daisy@duck.com"
+    }
+  }, 
+  {
+    "pk": 7, 
+    "model": "reststuff.user", 
+    "fields": {
+      "score": 7, 
+      "first": "Huey",
+      "last": "Duck",
+      "email": "huey@duck.com"
+    }
+  }, 
+  {
+    "pk": 8, 
+    "model": "reststuff.user", 
+    "fields": {
+      "score": 7, 
+      "first": "Dewey",
+      "last": "Duck",
+      "email": "dewey@duck.com"
+    }
+  }, 
+  {
+    "pk": 9, 
+    "model": "reststuff.user", 
+    "fields": {
+      "score": 7, 
+      "first": "Louie",
+      "last": "Duck",
+      "email": "louie@duck.com"
+    }
+  }, 
+  {
+    "pk": 10, 
+    "model": "reststuff.user", 
+    "fields": {
+      "score": 30, 
+      "first": "Scrooge",
+      "last": "McDuck",
+      "email": "scrooge@mcduck.com"
+    }
+  }, 
+  {
+    "pk": 11, 
+    "model": "reststuff.user", 
+    "fields": {
+      "score": 2, 
+      "first": "Matilda",
+      "last": "McDuck",
+      "email": "Matilda@mcduck.com"
+    }
   }
 ]
