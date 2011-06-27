@@ -274,8 +274,14 @@ function editableTableExample(store) {
             xtype: 'devilry-filtermanager',
             dock: 'right',
             padding: 10,
-            width: 200,
-            store: store
+            width: 230,
+            store: store,
+            propertyData: [
+                {"property":"first", "label":"First"},
+                {"property":"last", "label":"Last"},
+                {"property":"email", "label":"Email"}
+            ],
+            defaultProperty: 'email'
         }]
     });
     grid.getSelectionModel().on('selectionchange', function(selModel, selections){

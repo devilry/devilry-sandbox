@@ -12,37 +12,46 @@ Ext.define('devilry.FilterSelector', {
             listeners: {
                 specialkey: function(textfield, e) {
                     if(e.getKey() == e.ENTER) {
-                        this.ownerCt.ownerCt.store.filter(this.ownerCt.combo.getValue(), textfield.getValue());
-                        textfield.setValue('');
+                        this.ownerCt.addFilter();
                     }
+                }
+            }
+        }, {
+            xtype: 'button',
+            text: '+',
+            listeners: {
+                click: function() {
+                    this.ownerCt.addFilter();
                 }
             }
         }
     ],
 
     afterRender: function() {
-
-        var me = this;
-        var data = [
-            {"property":"first", "label":"First"},
-            {"property":"last", "label":"Last"},
-            {"property":"email", "label":"Email"}
-        ];
         this.combo = Ext.create('Ext.form.field.ComboBox', {
             store: Ext.create('Ext.data.Store', {
                 fields: ['property', 'label'],
-                data: data
+                data: this.ownerCt.propertyData
             }),
             queryMode: 'local',
             displayField: 'label',
             valueField: 'property',
             forceSelection: true,
             editable: false,
-            value: data[2].property,
-            width: 70
+            value: this.ownerCt.defaultProperty,
+            width: 60
         });
         this.insert(0, this.combo);
 
         return this;
     },
+
+    addFilter: function() {
+        var textfield = this.items.items[1];
+        var value = textfield.getValue();
+        if(value != '') {
+            this.ownerCt.store.filter(this.combo.getValue(), value);
+            textfield.setValue('');
+        }
+    }
 });
