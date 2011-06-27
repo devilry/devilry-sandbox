@@ -1,8 +1,8 @@
 Ext.define('devilry.FilterLabel', {
     extend: 'Ext.container.Container',
     style: {
-        color: '#FFFFFF',
-        backgroundColor:'#000000',
+        color: '#333',
+        backgroundColor:'#fff',
         'border-radius': '6px'
     },
     padding: 5,

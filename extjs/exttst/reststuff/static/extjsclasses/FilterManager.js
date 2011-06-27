@@ -1,38 +1,37 @@
+Ext.require(['devilry.FilterBox']);
+
 Ext.define('devilry.FilterManager', {
     extend: 'Ext.container.Container',
     require: ['devilry.FilterBox'],
-    //renderTo: 'filterbox-example',
-    width: 250,
+    alias: 'widget.devilry-filtermanager', // Registers this as xtype: devilry-filtermanager
 
-    constructor: function(store, config) {
-        this.callParent([config]);
-        this.filterbox = Ext.create('devilry.FilterBox', store);
-        this.clearAllButton = Ext.create('Ext.Button', {
-            text: 'Clear all filters',
-            listeners: {
-                click: function() {
-                    store.filters.clear();
-                }
-            }
-        });
-
-        var me = this;
-        this.addfield = Ext.create('Ext.form.field.Text', {
-            fieldLabel: 'Add filter',
-            width: me.width,
+    items: [
+        {
+            xtype: 'textfield',
+            emptyText: 'Add filter...',
             listeners: {
                 specialkey: function(textfield, e) {
                     if(e.getKey() == e.ENTER) {
-                        store.filter('first', textfield.getValue());
+                        this.ownerCt.store.filter('first', textfield.getValue());
                         textfield.setValue('');
                     }
                 }
             }
-        });
+        }, {
+            xtype: 'devilry-filterbox'
+        }, {
+            xtype: 'button',
+            text: 'Clear all filters',
+            listeners: {
+                click: function() {
+                    this.ownerCt.store.filters.clear();
+                }
+            }
+        }
+    ],
 
-        this.add(this.addfield);
-        this.add(this.filterbox);
-        this.add(this.clearAllButton);
+    constructor: function(config) {
+        this.callParent([config]);
         return this;
     }
 });

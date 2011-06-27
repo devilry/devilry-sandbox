@@ -13,8 +13,6 @@ Ext.Loader.setConfig({
 Ext.require(['Ext.data.*', 'Ext.grid.*', 'devilry.Person', 'devilry.FilterManager']);
 
 
-
-
 /* Override the method that is used to submit forms. */
 Ext.override(Ext.form.action.Submit, {
     run: function() {
@@ -206,7 +204,7 @@ function editableTableExample(store) {
     var grid = Ext.create('Ext.grid.Panel', {
         renderTo: 'table-example',
         plugins: [rowEditing],
-        width: 400,
+        width: 800,
         height: 300,
         frame: true,
         title: 'Users',
@@ -272,6 +270,11 @@ function editableTableExample(store) {
                     }
                 }
             }]
+        }, {
+            xtype: 'devilry-filtermanager',
+            dock: 'right',
+            padding: 10,
+            store: store
         }]
     });
     grid.getSelectionModel().on('selectionchange', function(selModel, selections){
@@ -393,6 +396,12 @@ Ext.onReady(function(){
     });
 
 
+    //var filterManager = Ext.create('devilry.FilterManager', {
+        //store: store,
+        //renderTo: 'filterbox-example'
+    //});
+
+
     var form = formExample();
     var editableTable = editableTableExample(store);
     var chart = chartExample(store);
@@ -423,10 +432,6 @@ Ext.onReady(function(){
         editableTable.resumeEvents();
     });
 
-
-    Ext.create('devilry.FilterManager', store, {
-        renderTo: 'filterbox-example'
-    });
     store.filter('first', 'pid');
     store.filter('last', 'erson');
 });

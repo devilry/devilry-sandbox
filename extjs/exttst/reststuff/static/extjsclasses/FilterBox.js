@@ -1,12 +1,20 @@
+Ext.require(['devilry.FilterLabel']);
 Ext.define('devilry.FilterBox', {
     extend: 'Ext.container.Container',
     require: ['devilry.FilterLabel'],
+    alias: 'widget.devilry-filterbox', // Registers this as xtype: devilry-filterbox
 
-    constructor: function(store) {
+    constructor: function(config) {
+        this.callParent([config]);
+        return this;
+    },
+
+    /** Called when the component has been rendered. */
+    afterRender: function(){
         this.callParent();
 
+        this.store = this.ownerCt.store;
         var me = this;
-        this.store = store;
 
         // Add event listeners for remove, add and clear to ensure that we
         // keep the list in sync with the filters
@@ -35,7 +43,6 @@ Ext.define('devilry.FilterBox', {
         });
 
         this.refresh();
-        return this;
     },
 
     /* Refresh from filters */
