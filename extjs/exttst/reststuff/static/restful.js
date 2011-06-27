@@ -45,7 +45,6 @@ Ext.define('Person', {
 Ext.override(Ext.form.action.Submit, {
     run: function() {
         var record = this.form.getRecord();
-        console.log(record);
         if(record) { // Update the current record with data from form if editing existing (previously loaded with loadRecord())
             this.form.updateRecord(record);
         } else { // Create new record
@@ -309,7 +308,7 @@ function chartExample(store) {
            }
        ],
 
-       // Series define what data to draw in the x and y axis
+       // Series define what data to draw in the x and y axis (in this case the series is the bars)
        series: [
            {
                type: 'bar',
@@ -318,7 +317,6 @@ function chartExample(store) {
                yField: ['score'],
 
                // Extra parameters to make the series prettier
-               highlight: true, // highlight on hover
                tips: { // Tooltips on hover
                    trackMouse: true,
                    width: 140,
@@ -336,7 +334,7 @@ function chartExample(store) {
                    orientation: 'horizontal',
                    color: '#333',
                    'text-anchor': 'middle'
-               },
+               }
            }
        ],
 
@@ -345,6 +343,17 @@ function chartExample(store) {
     });
 }
 
+
+
+
+/* Select the bar at the selectedIndex in the barSeries. */
+function highlightSelection(barSeries, selectedIndex) {
+    barSeries.highlight = true;
+    barSeries.unHighlightItem();
+    barSeries.cleanHighlights();
+    barSeries.highlightItem(barSeries.items[selectedIndex]);
+    barSeries.highlight = false;
+}
 
 
 
@@ -385,20 +394,30 @@ Ext.onReady(function(){
     var form = formExample();
     var editableTable = editableTableExample(store);
     var chart = chartExample(store);
-
+    var barSeries = chart.series.get(0);
 
     editableTable.on('selectionchange', function(selModel, selections){
-        if(selections[0]) {
-            form.loadRecord(selections[0]);
+        var selection = selections[0];
+        if(selection) {
+            form.loadRecord(selection);
+            var selectedIndex = selection.index;
+            highlightSelection(barSeries, selectedIndex);
         }
     });
 
+    // Update editableTable and chart after changes to form (this works because they share the same store).
     form.on('actioncomplete', function(formobj, action, options) {
-        //console.log(editableTable);
-        //console.log(action);
-        store.sync();
-        //console.log(chart);
-        //chart.store.sync();
-        //chart.redraw();
+        store.load();
+    });
+
+    // Select rows in editableTable when the corresponding item is clicked in the chart.
+    barSeries.on('itemmouseup', function(item) {
+        var selectedIndex = Ext.Array.indexOf(barSeries.items, item);
+        var selectionModel = editableTable.getSelectionModel();
+        var selectedStoreItem = item.storeItem;
+        editableTable.suspendEvents(); // Suspend events to avoid recursive select
+        selectionModel.select(selectedIndex);
+        highlightSelection(barSeries, selectedIndex);
+        editableTable.resumeEvents();
     });
 });
