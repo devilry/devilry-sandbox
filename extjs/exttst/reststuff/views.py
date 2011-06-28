@@ -53,9 +53,8 @@ class BadRequestResponse(Response):
 
 
 class FilterValue(object):
-    filterPattern = re.compile('(OR|AND)?[ ]?(>=|<=|!=|==|<|>)?(.+)')
-    comparisonMap = {'==': 'eq', '!=': 'ne',
-                     '>': 'gt', '<': 'lt',
+    filterPattern = re.compile('(OR|AND)?[ ]?(>=|<=|<|>)?(.+)')
+    comparisonMap = {'>': 'gt', '<': 'lt',
                      '>=': 'gte', '<=': 'lte'}
 
     def __init__(self, fieldname, value):
@@ -63,7 +62,6 @@ class FilterValue(object):
         if not match:
             raise ValueError('Could not parse filter value for {0}: {1}'.format(fieldname, value))
         self.logicalConnective, self.comparisonOperator, self.value = match.groups()
-        print self.value
         djangoComparison = self.getDjangoComparisonOp()
         key = '{0}__{1}'.format(fieldname, djangoComparison)
         queryParam = {key: self.value}
@@ -81,7 +79,6 @@ class FilterValue(object):
 
 def filtersToQry(filters):
     filterQry = None
-    #print 'Filters:'
     for filterprop in filters:
         fieldname = str(filterprop['property'])
         if not fieldname in UserForm._meta.fields:
@@ -112,7 +109,6 @@ class UserView(View):
             except ValueError, e:
                 return BadRequestResponse(dict(filters=unicode(e)))
             else:
-                #print filterQry
                 matchedusers = matchedusers.filter(filterQry)
         users = [dict(id=user.id, first=user.first, last=user.last, email=user.email, score=user.score) \
                 for user in matchedusers]

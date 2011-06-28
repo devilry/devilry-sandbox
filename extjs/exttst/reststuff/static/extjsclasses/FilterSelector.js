@@ -42,18 +42,23 @@ Ext.define('devilry.FilterSelector', {
             width: 60
         });
         this.insert(0, this.combo);
+        this.textfield = this.items.items[1];
 
-        //Ext.create('Ext.tip.ToolTip', config);
+        //Ext.QuickTips.init();
+        //Ext.create('Ext.tip.ToolTip', {
+            //target: this.textfield.id,
+            //title: 'Filter language',
+            //html: 'Hello world'
+        //});
 
         return this;
     },
 
     addFilter: function() {
-        var textfield = this.items.items[1];
-        var value = textfield.getValue();
+        var value = this.textfield.getValue();
         if(value != '') {
             this.ownerCt.store.filter(this.combo.getValue(), value);
-            textfield.setValue('');
+            this.textfield.setValue('');
         }
     }
 });

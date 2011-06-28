@@ -277,6 +277,7 @@ function editableTableExample(store) {
             width: 230,
             store: store,
             propertyData: [
+                {"property":"id", "label":"ID"},
                 {"property":"first", "label":"First"},
                 {"property":"last", "label":"Last"},
                 {"property":"email", "label":"Email"},
@@ -440,6 +441,9 @@ Ext.onReady(function(){
         editableTable.resumeEvents();
     });
 
-    store.filter('email', '.com');
-    store.filter('score', '>=10');
+    // Set some initial filters
+    store.filter('last', 'McDuck');
+    store.filter('score', 'OR >=40');
+    store.filter('first', 'OR Donald');
+    store.filter('score', 'AND <= 100');
 });

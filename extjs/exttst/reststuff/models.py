@@ -3,9 +3,9 @@ from django.db import models
 
 
 class User(models.Model):
-    first = models.CharField(max_length=20)
-    last = models.CharField(max_length=20)
-    email = models.EmailField()
+    first = models.CharField(max_length=20, db_index=True)
+    last = models.CharField(max_length=20, db_index=True)
+    email = models.EmailField(db_index=True)
     score = models.IntegerField()
 
     def __unicode__(self):
