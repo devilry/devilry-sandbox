@@ -14,7 +14,7 @@ from models import User
 class UserForm(ModelForm):
     class Meta:
         model = User
-        fields = ('email', 'first', 'last', 'score')
+        fields = ('id', 'email', 'first', 'last', 'score')
 
 
 def valid_user(f):
