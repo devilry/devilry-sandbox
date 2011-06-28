@@ -376,6 +376,8 @@ Ext.onReady(function(){
         autoSync: true,
         model: 'devilry.Person',
         remoteFilter: true,
+        remoteSort: true,
+
         listeners: {
             write: function(store, operation){
                 var record = operation.getRecords()[0],

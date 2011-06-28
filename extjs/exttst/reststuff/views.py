@@ -62,35 +62,53 @@ class FilterValue(object):
         if not match:
             raise ValueError('Could not parse filter value for {0}: {1}'.format(fieldname, value))
         self.logicalConnective, self.comparisonOperator, self.value = match.groups()
-        djangoComparison = self.getDjangoComparisonOp()
+        djangoComparison = self.get_django_comparison_op()
         key = '{0}__{1}'.format(fieldname, djangoComparison)
         queryParam = {key: self.value}
         self.djangoQry = Q(**queryParam)
 
-    def getDjangoComparisonOp(self):
+    def get_django_comparison_op(self):
         return self.comparisonMap.get(self.comparisonOperator, 'icontains')
 
-    def djangoLogicalConnect(self, otherDjangoQry):
+    def djang_logical_connect(self, otherDjangoQry):
         if self.logicalConnective == 'OR':
             return otherDjangoQry | self.djangoQry
         else:
             return otherDjangoQry & self.djangoQry
 
 
-def filtersToQry(filters):
+def validate_fieldname(formcls, fieldname):
+    if not fieldname in formcls._meta.fields:
+        raise ValueError('Illegal filter property: {0}'.format(fieldname))
+
+
+def filters_to_qry(formcls, filters):
     filterQry = None
     for filterprop in filters:
         fieldname = str(filterprop['property'])
-        if not fieldname in UserForm._meta.fields:
-            raise ValueError('Illegal filter property: {0}'.format(fieldname))
+        validate_fieldname(formcls, fieldname)
 
         value = filterprop['value']
         filtered = FilterValue(fieldname, value)
         if filterQry:
-            filterQry = filtered.djangoLogicalConnect(filterQry)
+            filterQry = filtered.djang_logical_connect(filterQry)
         else:
             filterQry = filtered.djangoQry
     return filterQry
+
+
+
+
+def extjssort_to_djangoorderby(formcls, sortspecifications):
+    def ext_to_django(sortspec):
+        fieldname = str(sortspec['property'])
+        validate_fieldname(formcls, fieldname)
+        direction = sortspec['direction']
+        if direction == 'DESC':
+            fieldname = '-' + fieldname
+        return fieldname
+    return map(ext_to_django, sortspecifications)
+
 
 class UserView(View):
     #@valid_user
@@ -99,17 +117,25 @@ class UserView(View):
         #return HttpResponse(json.dumps(data))
 
     def get(self, request, username=None):
-        filters = request.GET.get('filter')
         #validFilterFields = set()
         matchedusers = User.objects.all()
+
+        filters = request.GET.get('filter')
         if filters:
             filters = json.loads(filters)
             try:
-                filterQry = filtersToQry(filters)
+                filterQry = filters_to_qry(UserForm, filters)
             except ValueError, e:
                 return BadRequestResponse(dict(filters=unicode(e)))
             else:
                 matchedusers = matchedusers.filter(filterQry)
+
+        sortspecifications = request.GET.get('sort')
+        if sortspecifications:
+            sortspecifications = json.loads(sortspecifications)
+            orderby = extjssort_to_djangoorderby(UserForm, sortspecifications)
+            matchedusers = matchedusers.order_by(*orderby)
+
         users = [dict(id=user.id, first=user.first, last=user.last, email=user.email, score=user.score) \
                 for user in matchedusers]
         data = dict(success=True, message='Loaded data', data=users)
