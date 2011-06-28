@@ -98,6 +98,7 @@ MIDDLEWARE_CLASSES = (
     #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'logexceptionsmiddleware.TracebackLoggingMiddleware'
 )
 
 ROOT_URLCONF = 'exttst.urls'
@@ -134,6 +135,10 @@ LOGGING = {
         'mail_admins': {
             'level': 'ERROR',
             'class': 'django.utils.log.AdminEmailHandler'
+        },
+        'console': {
+            'level':'DEBUG',
+            'class':'logging.StreamHandler'
         }
     },
     'loggers': {
@@ -142,5 +147,9 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
         },
+        'logexceptionsmiddleware': {
+            'handlers': ['console'],
+            'level': 'INFO'
+        }
     }
 }
