@@ -43,6 +43,8 @@ Ext.define('devilry.FilterSelector', {
         });
         this.insert(0, this.combo);
 
+        //Ext.create('Ext.tip.ToolTip', config);
+
         return this;
     },
 

@@ -279,7 +279,8 @@ function editableTableExample(store) {
             propertyData: [
                 {"property":"first", "label":"First"},
                 {"property":"last", "label":"Last"},
-                {"property":"email", "label":"Email"}
+                {"property":"email", "label":"Email"},
+                {"property":"score", "label":"Score"}
             ],
             defaultProperty: 'email'
         }]
@@ -439,6 +440,6 @@ Ext.onReady(function(){
         editableTable.resumeEvents();
     });
 
-    store.filter('email', 'duck');
-    store.filter('first', 'D');
+    store.filter('email', '.com');
+    store.filter('score', '>=10');
 });
