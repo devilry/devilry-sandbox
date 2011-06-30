@@ -1,0 +1,17 @@
+###this is a h3
+##this is a h2##
+#this is a h1
+#and so is this
+
+this is a setex h1
+============================
+and this is a setex h2
+--------------
+but this is not a header
+--
+
+
+this however is just text
+*and this should be italic*
+**and this is bold**
+***and this is italibold!!***
